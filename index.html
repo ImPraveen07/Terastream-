@@ -15,7 +15,7 @@
             user-select: none; -webkit-user-select: none;
         }
 
-        /* --- UI FIXES --- */
+        /* --- ADS & UI --- */
         .ad-slot { width: 100%; min-height: 50px; background: #000; display: flex; justify-content: center; align-items: center; padding: 5px 0; border-bottom: 1px solid #1a1a1a; }
         #main-container { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center; }
         #home-screen { width: 100%; max-width: 500px; padding: 30px; background: rgba(255,255,255,0.02); border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); }
@@ -24,47 +24,35 @@
         .input-box { width: 100%; padding: 18px; border-radius: 14px; border: 1px solid #333; background: #000; color: #fff; margin: 15px 0; outline: none; font-size: 15px; user-select: text !important; }
         .play-btn { width: 100%; padding: 18px; border-radius: 14px; border: none; background: linear-gradient(90deg, #00e5ff, #00ff88); color: black; font-size: 16px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
 
-        /* --- 6-SECOND MONEY OVERLAY --- */
+        /* --- 6-SEC OVERLAY --- */
         #ad-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.98); z-index: 9999; display: none; flex-direction: column; justify-content: center; align-items: center; backdrop-filter: blur(12px); }
         .big-ad-box { width: 300px; height: 250px; background: #000; border: 1px solid #222; border-radius: 12px; margin: 10px 0; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .timer-wrap { padding: 10px; width: 60px; height: 60px; border: 3px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
         #overlay-timer { font-size: 26px; font-weight: 800; color: var(--primary); }
 
-        /* --- PLAYER & QUALITY SETTINGS --- */
+        /* --- PLAYER & SETTINGS --- */
         #cinema-wrapper { display: none; width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; background: #000; z-index: 10000; flex-direction: column; }
         .top-bar { padding: 10px 20px; background: rgba(0,0,0,0.8); position: absolute; top: 0; width: 100%; z-index: 10001; display: flex; justify-content: space-between; align-items: center; }
-        .close-player { background: #222; border: 1px solid #444; color: white; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 12px; }
-        
-        .quality-btn { background: #111; color: var(--primary); border: 1px solid var(--primary); padding: 8px; border-radius: 8px; font-size: 12px; font-weight: bold; outline: none; }
+        .quality-btn { background: #111; color: var(--primary); border: 1px solid var(--primary); padding: 8px; border-radius: 8px; font-size: 12px; font-weight: bold; }
         .dl-icon { background: var(--primary); color: #000; padding: 8px 15px; border-radius: 8px; text-decoration: none; font-weight: 800; font-size: 12px; cursor: pointer; }
-        
         video { width: 100%; height: 100%; object-fit: contain; }
 
-        /* --- TOS MODAL --- */
+        /* --- TOS --- */
         #tos-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(5, 6, 8, 0.98); z-index: 20000; display: flex; justify-content: center; align-items: center; }
         .tos-content { background: #0d0f14; border: 1px solid #1c1f26; width: 90%; max-width: 500px; padding: 25px; border-radius: 20px; text-align: center; }
-        .agree-btn { width: 100%; padding: 15px; border-radius: 10px; border: none; background: #1a1e26; color: #555; font-weight: 800; cursor: not-allowed; }
-        .agree-btn.active { background: linear-gradient(90deg, #00e5ff, #00ff88); color: #000; cursor: pointer; }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
-    <!-- 1. TOS -->
     <div id="tos-overlay">
         <div class="tos-content">
-            <h2 style="color:var(--primary)">TeraStream Rules</h2>
-            <div style="height:150px; overflow-y:auto; font-size:11px; color:var(--text-dim); margin-bottom:15px; text-align:justify; background:#000; padding:10px; border-radius:10px;">
-                Welcome bestie! 🦉 By using this tool, you agree that we are a proxy only. You are responsible for the content you stream. We use cookies and ads to keep this service free. Do not attempt to steal our code. Enjoy 🍿
-            </div>
-            <label style="display:flex; align-items:center; gap:10px; font-size:13px; margin-bottom:15px;">
-                <input type="checkbox" id="tos-checkbox" onchange="toggleAgreeBtn()">
-                <span>I agree to the Terms 💖</span>
-            </label>
-            <button id="agreeBtn" class="agree-btn" onclick="acceptTOS()" disabled>ENTER PLAYER</button>
+            <h2 style="color:var(--primary)">TeraStream Pro</h2>
+            <p style="font-size:12px; color:var(--text-dim)">Checking connection... Network Saver Active ⚡</p>
+            <button id="agreeBtn" style="width:100%; padding:15px; border-radius:10px; background:linear-gradient(90deg, #00e5ff, #00ff88); border:none; font-weight:800; cursor:pointer;" onclick="acceptTOS()">START STREAMING</button>
         </div>
     </div>
 
-    <!-- 2. TOP AD (YOUR 320x50 SCRIPT) -->
+    <!-- USER 320x50 SCRIPT -->
     <div class="ad-slot">
         <script src="https://pl29437763.profitablecpmratenetwork.com/1d/ca/73/1dca73f5c59fdf49cbfe128bbf80c21a.js"></script>
     </div>
@@ -72,9 +60,9 @@
     <div id="main-container">
         <div id="home-screen">
             <h1>TeraStream</h1>
-            <p style="color:var(--text-dim); font-size: 12px;">Pre-fetching Video for Zero Lag...</p>
+            <p id="net-status" style="color:var(--primary); font-size: 11px; margin-top:5px;">Network: Optimizing...</p>
 
-            <input type="text" id="linkBox" class="input-box" placeholder="Paste TeraBox Link here..." spellcheck="false">
+            <input type="text" id="linkBox" class="input-box" placeholder="Paste TeraBox Link here...">
             <button class="play-btn" onclick="startAction('play')">Unlock & Play</button>
 
             <div id="native-ad-container" style="margin-top:20px;">
@@ -84,12 +72,11 @@
         </div>
     </div>
 
-    <!-- 3. BOTTOM AD (YOUR 320x50 SCRIPT) -->
+    <!-- USER 320x50 SCRIPT -->
     <div class="ad-slot" style="border-top:1px solid #1a1a1a; border-bottom:none;">
         <script src="https://pl29437763.profitablecpmratenetwork.com/1d/ca/73/1dca73f5c59fdf49cbfe128bbf80c21a.js"></script>
     </div>
 
-    <!-- 4. 6-SECOND TIMER OVERLAY -->
     <div id="ad-overlay">
         <div class="overlay-content">
             <div class="big-ad-box">
@@ -99,7 +86,7 @@
                 <script type="text/javascript" src="//www.highperformanceformat.com/18ea0a28b5dca9cb89e786e8828bab39/invoke.js"></script>
             </div>
             <div class="timer-wrap"><div id="overlay-timer">6</div></div>
-            <p id="timer-text" style="color:#555; font-size:11px;">Generating Tunnel...</p>
+            <p id="timer-text" style="color:#555; font-size:10px;">Buffering Video...</p>
             <div class="big-ad-box">
                 <script type="text/javascript">
                     atOptions = { 'key' : '18ea0a28b5dca9cb89e786e8828bab39', 'format' : 'js', 'height' : 250, 'width' : 300, 'params' : {} };
@@ -109,11 +96,10 @@
         </div>
     </div>
 
-    <!-- 5. CINEMA PLAYER -->
     <div id="cinema-wrapper">
         <div class="top-bar">
             <button class="close-player" onclick="location.reload()">⬅ BACK</button>
-            <div style="display:flex; gap:10px; align-items:center;">
+            <div style="display:flex; gap:8px;">
                 <select id="qualitySelect" class="quality-btn" onchange="changeQuality()"></select>
                 <div class="dl-icon" onclick="startAction('download')">SAVE</div>
             </div>
@@ -125,9 +111,25 @@
     let fetchedStreams = {};
     let directLink = "";
     let apiReady = false;
-    let currentMode = "play"; // "play" or "download"
+    let userNetwork = "fast"; 
 
-    /* --- SPEED OPTIMIZATION: PRELOAD --- */
+    /* --- NETWORK SAVER LOGIC --- */
+    function checkNetwork() {
+        const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        if (conn) {
+            const type = conn.effectiveType; // '4g', '3g', etc.
+            const statusEl = document.getElementById('net-status');
+            if (type.includes('2g') || type === '3g') {
+                userNetwork = "slow";
+                statusEl.innerText = "Network: Slow (Saver Active ⚡)";
+            } else {
+                userNetwork = "fast";
+                statusEl.innerText = "Network: High Speed (HD Ready)";
+            }
+        }
+    }
+    checkNetwork();
+
     async function preloadVideo(url) {
         try {
             const res = await fetch('https://terabox-downloader-api2.p.rapidapi.com/v1', {
@@ -144,20 +146,27 @@
                 fetchedStreams = data.result.fast_streams || {};
                 directLink = data.result.direct_link || "";
                 
-                // POPULATE QUALITY SETTINGS
                 const qSelect = document.getElementById('qualitySelect');
                 qSelect.innerHTML = '';
+                
+                // AUTO-SELECT BASED ON NETWORK
+                let targetQual = (userNetwork === "slow") ? "360p" : "720p";
+                let bestMatch = data.result.stream_url;
+
                 for (let q in fetchedStreams) {
                     let opt = document.createElement('option');
                     opt.value = fetchedStreams[q];
                     opt.innerText = q;
-                    if(q === '720p') opt.selected = true;
+                    if(q === targetQual || (!fetchedStreams[targetQual] && q === '480p')) {
+                        opt.selected = true;
+                        bestMatch = fetchedStreams[q];
+                    }
                     qSelect.appendChild(opt);
                 }
 
                 const player = document.getElementById('mainPlayer');
-                player.src = fetchedStreams['720p'] || data.result.stream_url;
-                player.load(); // VIDEO STARTS LOADING IN BACKGROUND DURING ADS
+                player.src = bestMatch;
+                player.load(); // BUFFERING STARTS HERE (DURING TIMER)
                 apiReady = true;
             } else { apiReady = "error"; }
         } catch (e) { apiReady = "error"; }
@@ -165,45 +174,39 @@
 
     function startAction(mode) {
         const url = document.getElementById('linkBox').value;
-        if(!url.includes('tera')) return alert("Enter Link!");
+        if(!url.includes('tera')) return alert("Paste Link!");
 
-        currentMode = mode;
         document.getElementById('ad-overlay').style.display = 'flex';
-        document.getElementById('timer-text').innerText = (mode === 'play') ? "Securing Stream..." : "Preparing Download...";
-        
         if(mode === 'play') preloadVideo(url);
 
         let count = 6;
         const timerEl = document.getElementById('overlay-timer');
-        timerEl.innerText = count;
-
         const interval = setInterval(() => {
             count--;
             timerEl.innerText = count;
             if(count <= 0) {
                 clearInterval(interval);
-                executeFinalAction();
+                executeAction(mode);
             }
         }, 1000);
     }
 
-    function executeFinalAction() {
-        if (currentMode === 'play') {
+    // FAST-CHECK CYCLE (100ms)
+    function executeAction(mode) {
+        if (mode === 'play') {
             if (apiReady === true) {
                 document.getElementById('ad-overlay').style.display = 'none';
                 document.getElementById('main-container').style.display = 'none';
                 document.getElementById('cinema-wrapper').style.display = 'flex';
-                document.getElementById('mainPlayer').play(); // INSTANT PLAY
+                document.getElementById('mainPlayer').play(); 
             } else if (apiReady === "error") {
                 alert("API Error"); location.reload();
             } else {
-                // If API is taking longer than 6s, wait 500ms and check again
-                setTimeout(executeFinalAction, 500);
+                setTimeout(() => executeAction('play'), 100); // Check again in 0.1s
             }
         } else {
-            // DOWNLOAD MODE: Open the direct link
             document.getElementById('ad-overlay').style.display = 'none';
-            window.open(directLink, '_blank');
+            window.open(directLink || fetchedStreams['720p'], '_blank');
         }
     }
 
@@ -215,14 +218,12 @@
         player.onloadedmetadata = () => { player.currentTime = currentTime; player.play(); };
     }
 
-    /* --- TOS & SECURITY --- */
-    function toggleAgreeBtn() { document.getElementById('agreeBtn').disabled = !document.getElementById('tos-checkbox').checked; document.getElementById('agreeBtn').className = document.getElementById('tos-checkbox').checked ? 'agree-btn active' : 'agree-btn'; }
-    function acceptTOS() { localStorage.setItem('ts_agreed', 'yes'); document.getElementById('tos-overlay').style.display = 'none'; }
-    window.onload = () => { if(localStorage.getItem('ts_agreed')) document.getElementById('tos-overlay').style.display='none'; }
-    document.addEventListener('keydown', e => { if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I")) e.preventDefault(); });
+    function acceptTOS() { localStorage.setItem('ts_ok', '1'); document.getElementById('tos-overlay').style.display = 'none'; }
+    window.onload = () => { if(localStorage.getItem('ts_ok')) document.getElementById('tos-overlay').style.display='none'; }
 </script>
 
-<!-- PASTE SOCIAL BAR SCRIPT HERE -->
+<!-- SOCIAL BAR SCRIPT HERE -->
 
 </body>
 </html>
+
