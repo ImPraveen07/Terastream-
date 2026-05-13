@@ -9,70 +9,79 @@
         :root { --primary: #00e5ff; --bg: #08090d; --text-dim: #8b92a5; }
         * { box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
         
+        /* --- THE VAULT: STRICT SECURITY --- */
         body { 
             background: var(--bg); color: white; margin: 0; overflow-x: hidden; 
             display: flex; flex-direction: column; min-height: 100vh;
-            user-select: none; -webkit-user-select: none;
+            user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none;
         }
 
-        /* --- UI CLEANUP --- */
+        /* --- OG TERMS MODAL (BESTIE VERSION) --- */
+        #tos-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(5, 6, 8, 0.98); z-index: 20000; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(10px); }
+        .tos-content { background: #0d0f14; border: 1px solid #1c1f26; width: 95%; max-width: 580px; padding: 30px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0, 229, 255, 0.1); display: flex; flex-direction: column; }
+        .tos-header { color: var(--primary); font-size: 22px; font-weight: 800; margin-bottom: 15px; text-align: center; letter-spacing: 1px; }
+        .action-area { background: #11141c; padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px dashed rgba(0, 229, 255, 0.3); }
+        .tos-check-row { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 14px; cursor: pointer; margin-bottom: 15px; color: #fff; font-weight: 600; }
+        #tos-checkbox { width: 20px; height: 20px; accent-color: var(--primary); cursor: pointer; }
+        .agree-btn { width: 100%; padding: 16px; border-radius: 10px; border: none; background: #1a1e26; color: #555; font-weight: 800; cursor: not-allowed; transition: 0.3s; font-size: 16px; }
+        .agree-btn.active { background: linear-gradient(90deg, #00e5ff, #00ff88); color: #000; cursor: pointer; box-shadow: 0 5px 15px rgba(0, 229, 255, 0.3); }
+        .tos-body { height: 220px; overflow-y: auto; background: #050608; padding: 20px; border-radius: 10px; font-size: 12px; color: var(--text-dim); line-height: 1.8; border: 1px solid #15181e; text-align: justify; scrollbar-width: thin; scrollbar-color: var(--primary) #050608; }
+
+        /* --- HOME SCREEN LAYOUT --- */
         .ad-slot { width: 100%; min-height: 90px; background: #050505; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid #1a1a1a; padding: 10px 0; }
         #main-container { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center; }
+        #home-screen { width: 100%; max-width: 500px; padding: 30px; background: rgba(255,255,255,0.02); border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+        h1 { font-weight: 800; font-size: 2.2rem; background: linear-gradient(90deg, #00e5ff, #00ff88); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0 0 5px 0; }
         
-        #home-screen { 
-            width: 100%; max-width: 500px; padding: 30px; 
-            background: rgba(255,255,255,0.02); border-radius: 24px; 
-            border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 40px rgba(0,0,0,0.6); 
-        }
-
-        h1 { font-weight: 800; font-size: 2rem; background: linear-gradient(90deg, #00e5ff, #00ff88); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0 0 10px 0; }
+        .input-box { width: 100%; padding: 18px; border-radius: 14px; border: 1px solid #333; background: #000; color: #fff; margin-bottom: 15px; outline: none; font-size: 15px; user-select: text !important; }
+        .play-btn { width: 100%; padding: 18px; border-radius: 14px; border: none; background: linear-gradient(90deg, #00e5ff, #00ff88); color: black; font-size: 16px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
         
-        /* Input is now on TOP for better UX */
-        .input-box { 
-            width: 100%; padding: 18px; border-radius: 14px; border: 1px solid #333; 
-            background: #000; color: #fff; margin-bottom: 15px; outline: none; font-size: 15px;
-            user-select: text !important;
-        }
-        .play-btn { 
-            width: 100%; padding: 18px; border-radius: 14px; border: none; 
-            background: linear-gradient(90deg, #00e5ff, #00ff88); color: black; 
-            font-size: 16px; font-weight: 800; cursor: pointer; text-transform: uppercase;
-        }
+        /* Ad placed SUBTLELY below the button */
+        #native-ad-container { width: 100%; margin-top: 25px; border-radius: 12px; overflow: hidden; min-height: 100px; }
 
-        /* Ads placed BELOW the action button */
-        #native-ad-container { width: 100%; margin-top: 25px; border-radius: 12px; overflow: hidden; min-height: 100px; background: rgba(0,0,0,0.3); }
+        /* --- THE 8-SECOND MONEY OVERLAY --- */
+        #ad-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.98); z-index: 9999; display: none; flex-direction: column; justify-content: center; align-items: center; backdrop-filter: blur(12px); }
+        .overlay-content { width: 95%; max-width: 380px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+        .big-ad-box { width: 300px; height: 250px; background: #000; border: 1px solid #222; border-radius: 12px; margin: 10px 0; overflow: hidden; }
+        .timer-wrap { padding: 15px; width: 100%; background: rgba(255,255,255,0.02); border-radius: 15px; border: 1px dashed var(--primary); margin: 5px 0; }
+        #overlay-timer { font-size: 38px; font-weight: 800; color: var(--primary); text-shadow: 0 0 10px rgba(0, 229, 255, 0.4); }
 
-        /* --- FAST TIMER OVERLAY --- */
-        #ad-overlay { 
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
-            background: rgba(0, 0, 0, 0.98); z-index: 9999; display: none; 
-            flex-direction: column; justify-content: center; align-items: center; backdrop-filter: blur(12px); 
-        }
-        .overlay-content { width: 95%; max-width: 380px; text-align: center; }
-        
-        .big-ad-box { 
-            width: 300px; height: 250px; background: #000; border: 1px solid #222; 
-            margin: 10px auto; border-radius: 12px; overflow: hidden;
-            display: flex; align-items: center; justify-content: center;
-        }
-
-        .timer-circle {
-            width: 70px; height: 70px; border: 3px solid var(--primary);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            margin: 10px auto; font-size: 28px; font-weight: 800; color: var(--primary);
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
-        }
-
-        /* --- PLAYER --- */
-        #cinema-wrapper { display: none; width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; background: #000; z-index: 10000; }
-        .top-bar { padding: 15px; position: absolute; top: 0; width: 100%; z-index: 10001; display: flex; justify-content: space-between; }
-        .close-player { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 20px; border-radius: 30px; cursor: pointer; }
-        video { width: 100%; height: 100%; background: #000; }
+        /* --- CINEMA PLAYER --- */
+        #cinema-wrapper { display: none; width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; background: #000; z-index: 10000; flex-direction: column; }
+        .top-bar { padding: 15px 25px; background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent); position: absolute; top: 0; left: 0; width: 100%; z-index: 10001; display: flex; justify-content: space-between; }
+        .close-player { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 10px 20px; border-radius: 30px; cursor: pointer; font-weight: bold; }
+        .dl-icon { background: var(--primary); color: #000; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 800; }
+        video { width: 100%; height: 100%; object-fit: contain; }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
-    <!-- TOP BANNER -->
+    <!-- 1. OG TOS (THE LONG BESTIE VERSION) -->
+    <div id="tos-overlay">
+        <div class="tos-content">
+            <div class="tos-header">✨ Welcome to TeraStream ✨</div>
+            <div class="action-area">
+                <label class="tos-check-row">
+                    <input type="checkbox" id="tos-checkbox" onchange="toggleAgreeBtn()">
+                    <span>I promise to be good & follow the rules! 💖</span>
+                </label>
+                <button id="agreeBtn" class="agree-btn" onclick="acceptTOS()" disabled>START WATCHING 🍿</button>
+            </div>
+            <div class="tos-body">
+                Hey there, bestie! 👋 We are so incredibly happy that you decided to use our little app today. We built this tool just for you so you can bypass those annoying limits and watch your favorite videos with zero stress. Grab some popcorn, get comfy, and let us do all the heavy lifting!
+                <br><br>
+                Before we dive into the fun stuff, we just have a few super quick house rules. First: <b>We use Firebase!</b> 🔥 That means we store a tiny bit of anonymous data just to make sure your app runs smoothly. It helps us keep the lights on and makes your experience better! 
+                <br><br>
+                Now, let's talk about links. We are just the magical messenger owl! 🦉 We don't host, store, or even know what is inside the links you bring us. Because of that, <b>you are 100% responsible for the videos you watch.</b> If you accidentally paste a link that has yucky, 18+ adult stuff, or anything mean, that is totally on you, friend! We take zero risk and zero responsibility for what you decide to stream.
+                <br><br>
+                We love keeping our community a safe, happy place. So please, pretty please, do not use our player for any naughty or restricted stuff. If you do, you're breaking our pinky promise! 🛑
+                <br><br>
+                Sometimes our little server hamsters get tired, so the video might take a few seconds to load. Just be patient! By checking the box above, you're giving us a virtual high-five and agreeing that you won't hold us responsible for broken links or anything else. You are officially the best! 🎉
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. TOP AD (728x90) -->
     <div class="ad-slot">
         <script type="text/javascript">
             atOptions = { 'key' : '11e27d7882262d961361c7032bff6f7d', 'format' : 'js', 'height' : 90, 'width' : 728, 'params' : {} };
@@ -82,14 +91,13 @@
 
     <div id="main-container">
         <div id="home-screen">
-            <h1>TeraStream Pro</h1>
-            <p style="color:var(--text-dim); font-size: 12px; margin-bottom: 20px;">Fastest No-App Player</p>
+            <h1>TeraStream</h1>
+            <p style="color:var(--text-dim); font-size: 13px; margin-bottom: 20px;">Bypass Limits • Watch Instantly</p>
 
-            <!-- INPUT FIRST -->
-            <input type="text" id="linkBox" class="input-box" placeholder="Paste TeraBox Link..." spellcheck="false">
-            <button class="play-btn" id="playBtn" onclick="startProcess()">Unlock Stream</button>
+            <input type="text" id="linkBox" class="input-box" placeholder="Paste TeraBox Link here..." spellcheck="false">
+            <button class="play-btn" id="playBtn" onclick="startProcess()">Unlock & Play</button>
 
-            <!-- NATIVE AD BELOW BUTTON -->
+            <!-- 3. NATIVE AD (PLACED BELOW BUTTON) -->
             <div id="native-ad-container">
                 <script async="async" data-cfasync="false" src="https://pl29436277.profitablecpmratenetwork.com/f66769b56b44248314261841a0e4e0c9/invoke.js"></script>
                 <div id="container-f66769b56b44248314261841a0e4e0c9"></div>
@@ -97,20 +105,30 @@
         </div>
     </div>
 
-    <!-- 8-SECOND OVERLAY -->
+    <!-- 4. BOTTOM AD (728x90) -->
+    <div class="ad-slot" style="border-top: 1px solid #1a1a1a; border-bottom: none;">
+        <script type="text/javascript">
+            atOptions = { 'key' : '11e27d7882262d961361c7032bff6f7d', 'format' : 'js', 'height' : 90, 'width' : 728, 'params' : {} };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/11e27d7882262d961361c7032bff6f7d/invoke.js"></script>
+    </div>
+
+    <!-- 5. 8-SECOND TIMER OVERLAY (300x250 x2) -->
     <div id="ad-overlay">
         <div class="overlay-content">
-            <div id="ad-box-1" class="big-ad-box">
+            <div class="big-ad-box">
                 <script type="text/javascript">
                     atOptions = { 'key' : '18ea0a28b5dca9cb89e786e8828bab39', 'format' : 'js', 'height' : 250, 'width' : 300, 'params' : {} };
                 </script>
                 <script type="text/javascript" src="//www.highperformanceformat.com/18ea0a28b5dca9cb89e786e8828bab39/invoke.js"></script>
             </div>
 
-            <div class="timer-circle" id="count-display">8</div>
-            <p style="font-size: 11px; color: #555;">Server Tunneling... Please wait</p>
+            <div class="timer-wrap">
+                <div id="overlay-timer">8</div>
+                <p style="color: #888; font-size: 11px; margin:0;">Securing your stream...</p>
+            </div>
 
-            <div id="ad-box-2" class="big-ad-box">
+            <div class="big-ad-box">
                 <script type="text/javascript">
                     atOptions = { 'key' : '18ea0a28b5dca9cb89e786e8828bab39', 'format' : 'js', 'height' : 250, 'width' : 300, 'params' : {} };
                 </script>
@@ -119,46 +137,64 @@
         </div>
     </div>
 
-    <!-- PLAYER -->
+    <!-- 6. CINEMA PLAYER -->
     <div id="cinema-wrapper">
         <div class="top-bar">
             <button class="close-player" onclick="location.reload()">⬅ EXIT</button>
-            <a id="downloadBtn" href="#" style="background:var(--primary); color:black; padding:10px 20px; border-radius:8px; text-decoration:none; font-weight:800;">SAVE</a>
+            <a id="downloadBtn" href="#" class="dl-icon" target="_blank">SAVE VIDEO</a>
         </div>
-        <video id="mainPlayer" controls playsinline></video>
+        <video id="mainPlayer" controls playsinline preload="auto"></video>
     </div>
 
 <script>
-    let fetchedVideoData = null;
+    /* --- STRICT SECURITY: BLOCK INSPECT --- */
+    document.addEventListener('keydown', function(e) {
+        if (e.key === "F12" || (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C")) || (e.ctrlKey && e.key === "U")) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    /* --- TOS LOGIC --- */
+    window.onload = function() {
+        if (localStorage.getItem('agreed_to_be_good') === 'yes') {
+            document.getElementById('tos-overlay').style.display = 'none';
+        }
+    }
+    function toggleAgreeBtn() {
+        const cb = document.getElementById('tos-checkbox');
+        const btn = document.getElementById('agreeBtn');
+        btn.disabled = !cb.checked;
+        btn.className = cb.checked ? 'agree-btn active' : 'agree-btn';
+    }
+    function acceptTOS() {
+        localStorage.setItem('agreed_to_be_good', 'yes');
+        document.getElementById('tos-overlay').style.display = 'none';
+    }
+
+    /* --- SMART PRE-FETCH LOGIC --- */
+    let fetchedVideoData = null; 
     let apiReady = false;
 
     async function startProcess() {
         const url = document.getElementById('linkBox').value;
-        if(!url.includes('tera')) return alert("Invalid Link");
+        if(!url.includes('tera')) return alert("Please enter a valid TeraBox link.");
 
         document.getElementById('ad-overlay').style.display = 'flex';
         
-        // START FETCHING IMMEDIATELY (Invisible to user)
+        // Start fetching while ads show
         preloadVideo(url);
 
-        let timeLeft = 8; // REDUCED TIMER
-        const timerDisplay = document.getElementById('count-display');
+        let timeLeft = 8;
+        const timerElement = document.getElementById('overlay-timer');
         
         const countdown = setInterval(() => {
             timeLeft--;
-            timerDisplay.innerText = timeLeft;
-
-            // SMART SWAP: Refresh ads visually at 4 seconds
-            if(timeLeft === 4) {
-                document.querySelectorAll('.big-ad-box').forEach(el => el.style.opacity = '0.5');
-                setTimeout(() => {
-                    document.querySelectorAll('.big-ad-box').forEach(el => el.style.opacity = '1');
-                }, 200);
-            }
+            timerElement.innerText = timeLeft;
             
             if(timeLeft <= 0) {
                 clearInterval(countdown);
-                checkAndLaunch();
+                checkLaunch();
             }
         }, 1000);
     }
@@ -180,32 +216,30 @@
                 fetchedVideoData = data.result.fast_streams?.['720p'] || data.result.stream_url || data.result.direct_link;
                 const player = document.getElementById('mainPlayer');
                 player.src = fetchedVideoData;
-                player.load(); // BUFFERING WHILE ADS SHOW
-                apiReady = true;
+                player.load(); // Silent Buffer
                 document.getElementById('downloadBtn').href = data.result.direct_link || fetchedVideoData;
-            }
-        } catch (e) { apiReady = "failed"; }
+                apiReady = true;
+            } else { apiReady = "error"; }
+        } catch (e) { apiReady = "error"; }
     }
 
-    function checkAndLaunch() {
+    function checkLaunch() {
         if (apiReady === true) {
             document.getElementById('ad-overlay').style.display = 'none';
             document.getElementById('main-container').style.display = 'none';
-            document.getElementById('cinema-wrapper').style.display = 'block';
+            document.getElementById('cinema-wrapper').style.display = 'flex';
             document.getElementById('mainPlayer').play();
-        } else if (apiReady === "failed") {
-            alert("API Error. Please try again.");
+        } else if (apiReady === "error") {
+            alert("Tunnel busy. Please refresh.");
             location.reload();
         } else {
-            // If API is slow, wait 1 more second
-            setTimeout(checkAndLaunch, 1000);
+            // Wait 1 extra second if API is slow
+            setTimeout(checkLaunch, 1000);
         }
     }
-
-    // Security: Block Inspect
-    document.addEventListener('keydown', e => {
-        if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I")) e.preventDefault();
-    });
 </script>
+
+<!-- PASTE YOUR SOCIAL BAR CODE HERE -->
+
 </body>
 </html>
