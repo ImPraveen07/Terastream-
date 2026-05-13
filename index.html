@@ -8,21 +8,23 @@
     <style>
         :root { --primary: #00e5ff; --bg: #08090d; --text-dim: #8b92a5; }
         * { box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--bg); color: white; margin: 0; display: flex; flex-direction: column; min-height: 100vh; user-select: none; }
+        body { background: var(--bg); color: white; margin: 0; overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; user-select: none; }
 
-        /* --- THE FLICKER FIX: display: none is default --- */
+        /* --- STOP THE FLICKER --- */
         #tos-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(5, 6, 8, 0.98); z-index: 9999999; display: none; justify-content: center; align-items: center; backdrop-filter: blur(10px); }
         .tos-content { background: #0d0f14; border: 1px solid #1c1f26; width: 95%; max-width: 580px; padding: 30px; border-radius: 20px; }
         .tos-header { color: var(--primary); font-size: 22px; font-weight: 800; text-align: center; margin-bottom: 15px; }
-        .tos-body { height: 220px; overflow-y: auto; background: #000; padding: 20px; border-radius: 10px; font-size: 12px; color: var(--text-dim); line-height: 1.8; margin-bottom: 15px; border: 1px solid #111; }
+        .tos-body { height: 220px; overflow-y: auto; background: #000; padding: 20px; border-radius: 10px; font-size: 12px; color: var(--text-dim); line-height: 1.8; margin-bottom: 15px; }
         .agree-btn { width: 100%; padding: 16px; border-radius: 10px; border: none; background: #1a1e26; color: #555; font-weight: 800; cursor: not-allowed; }
         .agree-btn.active { background: linear-gradient(90deg, #00e5ff, #00ff88); color: #000; cursor: pointer; }
 
         .ad-slot { width: 100%; min-height: 60px; background: #000; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid #1a1a1a; padding: 10px 0; }
         #main-container { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center; }
-        .play-btn { width: 100%; padding: 18px; border-radius: 14px; border: none; background: linear-gradient(90deg, #00e5ff, #00ff88); color: black; font-weight: 800; cursor: pointer; }
         .input-box { width: 100%; padding: 18px; border-radius: 14px; border: 1px solid #333; background: #000; color: #fff; margin: 15px 0; outline: none; }
+        .play-btn { width: 100%; padding: 18px; border-radius: 14px; border: none; background: linear-gradient(90deg, #00e5ff, #00ff88); color: black; font-weight: 800; cursor: pointer; }
+
         #ad-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.98); z-index: 10000; display: none; flex-direction: column; justify-content: center; align-items: center; }
+        .big-ad-box { width: 300px; height: 250px; background: #000; border: 1px solid #222; border-radius: 12px; margin: 10px 0; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .timer-wrap { width: 60px; height: 60px; border: 3px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--primary); }
         #cinema-wrapper { display: none; width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; background: #000; z-index: 20000000; flex-direction: column; }
         video { width: 100%; height: 100%; object-fit: contain; }
@@ -33,16 +35,16 @@
 
     <div id="tos-overlay">
         <div class="tos-content">
-            <div class="tos-header">✨ Welcome ✨</div>
-            <div class="tos-body">Hey bestie! Agree to the rules to start watching. We use ads to keep this free for you! 💖</div>
-            <label style="display:flex; align-items:center; gap:10px; margin-bottom:15px; cursor:pointer;"><input type="checkbox" id="tos-checkbox" onchange="toggleAgreeBtn()"><span style="font-size:13px;">I promise to be good!</span></label>
+            <div class="tos-header">✨ TeraStream ✨</div>
+            <div class="tos-body">Welcome! Agree to start streaming. We use Firebase to keep things fast! 🚀</div>
+            <label style="display:flex; align-items:center; gap:10px; margin-bottom:15px; cursor:pointer;"><input type="checkbox" id="tos-checkbox" onchange="toggleAgreeBtn()"><span style="font-size:13px;">I promise to be good! 💖</span></label>
             <button id="agreeBtn" class="agree-btn" onclick="acceptTOS()" disabled>START STREAMING 🍿</button>
         </div>
     </div>
 
-    <!-- ADS -->
+    <!-- AD 1: TOP BANNER -->
     <div id="top-banner" class="ad-slot">
-        <script type="text/javascript">atOptions = { 'key' : '1dca73f5c59fdf49cbfe128bbf80c21a', 'format' : 'js', 'height' : 50, 'width' : 320, 'params' : {} };</script>
+        <script type="text/javascript">atOptions={'key':'1dca73f5c59fdf49cbfe128bbf80c21a','format':'js','height':50,'width':320,'params':{}};</script>
         <script type="text/javascript" src="//www.highperformanceformat.com/1dca73f5c59fdf49cbfe128bbf80c21a/invoke.js"></script>
     </div>
 
@@ -50,72 +52,46 @@
         <h1>TeraStream</h1>
         <input type="text" id="linkBox" class="input-box" placeholder="Paste Link...">
         <button class="play-btn" onclick="triggerAction('play')">Unlock & Play</button>
+        
+        <!-- NATIVE AD -->
+        <div id="native-ad" style="margin-top:20px;">
+            <script async="async" data-cfasync="false" src="https://pl29436277.profitablecpmratenetwork.com/f66769b56b44248314261841a0e4e0c9/invoke.js"></script>
+            <div id="container-f66769b56b44248314261841a0e4e0c9"></div>
+        </div>
     </div>
 
+    <!-- AD 2: BOTTOM BANNER -->
+    <div id="bottom-banner" class="ad-slot">
+        <script type="text/javascript">atOptions={'key':'1dca73f5c59fdf49cbfe128bbf80c21a','format':'js','height':50,'width':320,'params':{}};</script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/1dca73f5c59fdf49cbfe128bbf80c21a/invoke.js"></script>
+    </div>
+
+    <!-- MONEY OVERLAY (Timers & Big Ads) -->
     <div id="ad-overlay">
+        <div class="big-ad-box">
+            <script type="text/javascript">atOptions={'key':'18ea0a28b5dca9cb89e786e8828bab39','format':'js','height':250,'width':300,'params':{}};</script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/18ea0a28b5dca9cb89e786e8828bab39/invoke.js"></script>
+        </div>
         <div class="timer-wrap" id="overlay-timer">4</div>
-        <p style="color:#555; margin-top:10px;">Buffering Cloud...</p>
+        <div class="big-ad-box">
+            <script type="text/javascript">atOptions={'key':'18ea0a28b5dca9cb89e786e8828bab39','format':'js','height':250,'width':300,'params':{}};</script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/18ea0a28b5dca9cb89e786e8828bab39/invoke.js"></script>
+        </div>
     </div>
 
     <div id="cinema-wrapper">
-        <div style="padding:15px; background:#000;"><button onclick="location.reload()" style="background:#222; color:white; border:none; padding:10px; border-radius:8px;">⬅ BACK</button></div>
+        <div style="padding:15px; background:#000;"><button onclick="location.reload()" style="background:#222; color:white; border:none; padding:10px; border-radius:8px; cursor:pointer;">⬅ BACK</button></div>
         <video id="mainPlayer" controls playsinline></video>
     </div>
 
 <script>
-    // --- 1. STOP THE FLICKER ---
-    if(!localStorage.getItem('tos_final_v16')) {
-        document.getElementById('tos-overlay').style.display = 'flex';
-    }
-
-    const VIDEO_LIMIT = 10;
-    let apiReady = false;
-
-    async function fetchVideo(url) {
-        apiReady = false;
-        try {
-            // CALLING YOUR SECURE FUNCTION
-            const res = await fetch('/.netlify/functions/getStream', {
-                method: 'POST',
-                body: JSON.stringify({ link: url })
-            });
-            const data = await res.json();
-            if(data.result) {
-                document.getElementById('mainPlayer').src = data.result.stream_url;
-                apiReady = true;
-            }
-        } catch(e) { apiReady = "err"; }
-    }
-
-    function triggerAction(mode) {
-        const link = document.getElementById('linkBox').value;
-        if(!link.includes('tera')) return alert("Paste Link!");
-        
-        let count = parseInt(sessionStorage.getItem('v_count') || "0");
-        if (count >= VIDEO_LIMIT) { window.location.href = "https://freeteraboxtwo.netlify.app"; return; }
-        sessionStorage.setItem('v_count', count + 1);
-
-        fetchVideo(link);
-        document.getElementById('ad-overlay').style.display = 'flex';
-        let t = 4;
-        const clock = setInterval(() => {
-            t--; document.getElementById('overlay-timer').innerText = t;
-            if(t <= 0) { clearInterval(clock); checkAndLaunch(); }
-        }, 1000);
-    }
-
-    function checkAndLaunch() {
-        if(apiReady === true) {
-            document.getElementById('ad-overlay').style.display = 'none';
-            document.getElementById('main-container').style.display = 'none';
-            document.getElementById('top-banner').classList.add('hide-ads');
-            document.getElementById('cinema-wrapper').style.display = 'flex';
-            document.getElementById('mainPlayer').play();
-        } else { setTimeout(checkAndLaunch, 30); }
-    }
-
-    function acceptTOS() { localStorage.setItem('tos_final_v16', '1'); document.getElementById('tos-overlay').style.display = 'none'; }
-    function toggleAgreeBtn() { document.getElementById('agreeBtn').disabled = !document.getElementById('tos-checkbox').checked; document.getElementById('agreeBtn').className = document.getElementById('tos-checkbox').checked ? 'agree-btn active' : 'agree-btn'; }
+/* SCRAMBLED LOGIC START */
+var _0x5a12=["\x74\x6F\x73\x5F\x66\x69\x6E\x61\x6C\x5F\x76\x31\x36","\x67\x65\x74\x49\x74\x65\x6D","\x74\x6F\x73\x2D\x6F\x76\x65\x72\x6C\x61\x79","\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64","\x73\x74\x79\x6C\x65","\x64\x69\x73\x70\x6C\x61\x79","\x66\x6C\x65\x78"];(function(){if(!localStorage[_0x5a12[1]](_0x5a12[0])){document[_0x5a12[3]](_0x5a12[2])[_0x5a12[4]][_0x5a12[5]]=_0x5a12[6]}})();let apiReady=false;async function fetchVideo(_0x2b2x1){apiReady=false;try{const _0x2b2x2=await fetch("\x2F\x2E\x6E\x65\x74\x6C\x69\x66\x79\x2F\x66\x75\x6E\x63\x74\x69\x6F\x6E\x73\x2F\x67\x65\x74\x53\x74\x72\x65\x61\x6D",{method:"\x50\x4F\x53\x54",body:JSON.stringify({link:_0x2b2x1})});const _0x2b2x3=await _0x2b2x2.json();if(_0x2b2x3.result){document.getElementById("\x6D\x61\x69\x6E\x50\x6C\x61\x79\x65\x72").src=_0x2b2x3.result.stream_url;apiReady=true}}catch(_0x2b2x4){apiReady="\x65\x72\x72"}}function triggerAction(){const _0x2b2x5=document.getElementById("\x6C\x69\x6E\x6B\x42\x6F\x78").value;if(!_0x2b2x5.includes("\x74\x65\x72\x61"))return alert("\x49\x6E\x76\x61\x6C\x69\x64");let _0x2b2x6=parseInt(sessionStorage.getItem("\x76\x5F\x63\x6F\x75\x6E\x74")||"\x30");if(_0x2b2x6>=10){window.location.href="\x68\x74\x74\x70\x73\x3A\x2F\x2F\x66\x72\x65\x65\x74\x65\x72\x61\x62\x6F\x78\x74\x77\x6F\x2E\x6E\x65\x74\x6C\x69\x66\x79\x2E\x61\x70\x70";return}sessionStorage.setItem("\x76\x5F\x63\x6F\x75\x6E\x74",_0x2b2x6+1);fetchVideo(_0x2b2x5);document.getElementById("\x61\x64\x2D\x6F\x76\x65\x72\x6C\x61\x79").style.display="\x66\x6C\x65\x78";let _0x2b2x7=4;const _0x2b2x8=setInterval(()=>{_0x2b2x7--;document.getElementById("\x6F\x76\x65\x72\x6C\x61\x79\x2D\x74\x69\x6D\x65\x72").innerText=_0x2b2x7;if(_0x2b2x7<=0){clearInterval(_0x2b2x8);checkAndLaunch()}},1000)}function checkAndLaunch(){if(apiReady===true){document.getElementById("\x61\x64\x2D\x6F\x76\x65\x72\x6C\x61\x79").style.display="\x6E\x6F\x6E\x65";document.getElementById("\x6D\x61\x69\x6E\x2D\x63\x6F\x6E\x74\x61\x69\x6E\x65\x72").style.display="\x6E\x6F\x6E\x65";document.getElementById("\x74\x6F\x70\x2D\x62\x61\x6E\x6E\x65\x72").classList.add("\x68\x69\x64\x65\x2D\x61\x64\x73");document.getElementById("\x63\x69\x6E\x65\x6D\x61\x2D\x77\x72\x61\x70\x70\x65\x72").style.display="\x66\x6C\x65\x78";document.getElementById("\x6D\x61\x69\x6E\x50\x6C\x61\x79\x65\x72").play()}else{setTimeout(checkAndLaunch,30)}}function acceptTOS(){localStorage.setItem("\x74\x6F\x73\x5F\x66\x69\x6E\x61\x6C\x5F\x76\x31\x36","\x31");document.getElementById("\x74\x6F\x73\x2D\x6F\x76\x65\x72\x6C\x61\x79").style.display="\x6E\x6F\x6E\x65"}function toggleAgreeBtn(){document.getElementById("\x61\x67\x72\x65\x65\x42\x74\x6E").disabled=!document.getElementById("\x74\x6F\x73\x2D\x63\x68\x65\x63\x6B\x62\x6F\x78").checked}
+/* SCRAMBLED LOGIC END */
 </script>
+
+<div id="social-bar-container">
+    <script src="https://pl29437763.profitablecpmratenetwork.com/1d/ca/73/1dca73f5c59fdf49cbfe128bbf80c21a.js"></script>
+</div>
 </body>
 </html>
