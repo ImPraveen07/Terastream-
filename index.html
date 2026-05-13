@@ -8,51 +8,57 @@
     <style>
         :root { --primary: #00e5ff; --bg: #08090d; --text-dim: #8b92a5; }
         * { box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
-        
-        body { 
-            background: var(--bg); color: white; margin: 0; overflow-x: hidden; 
-            display: flex; flex-direction: column; min-height: 100vh;
-            user-select: none; -webkit-user-select: none;
-        }
+        body { background: var(--bg); color: white; margin: 0; overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; user-select: none; -webkit-user-select: none; }
 
-        /* --- ADS & UI --- */
-        .ad-slot { width: 100%; min-height: 50px; background: #000; display: flex; justify-content: center; align-items: center; padding: 5px 0; border-bottom: 1px solid #1a1a1a; }
+        /* --- BESTIE TOS --- */
+        #tos-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(5, 6, 8, 0.98); z-index: 999999; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(10px); }
+        .tos-content { background: #0d0f14; border: 1px solid #1c1f26; width: 95%; max-width: 580px; padding: 30px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0, 229, 255, 0.1); }
+        .tos-header { color: var(--primary); font-size: 22px; font-weight: 800; text-align: center; margin-bottom: 15px; }
+        .tos-body { height: 180px; overflow-y: auto; background: #000; padding: 20px; border-radius: 10px; font-size: 12px; color: var(--text-dim); line-height: 1.8; text-align: justify; margin-bottom: 15px; }
+        .agree-btn { width: 100%; padding: 16px; border-radius: 10px; border: none; background: #1a1e26; color: #555; font-weight: 800; cursor: not-allowed; transition: 0.3s; }
+        .agree-btn.active { background: linear-gradient(90deg, #00e5ff, #00ff88); color: #000; cursor: pointer; }
+
+        /* --- AD SLOTS --- */
+        .ad-slot { width: 100%; min-height: 50px; background: #000; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid #1a1a1a; padding: 5px 0; }
         #main-container { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center; }
         #home-screen { width: 100%; max-width: 500px; padding: 30px; background: rgba(255,255,255,0.02); border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); }
-        
         h1 { font-weight: 800; font-size: 2.2rem; background: linear-gradient(90deg, #00e5ff, #00ff88); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
-        .input-box { width: 100%; padding: 18px; border-radius: 14px; border: 1px solid #333; background: #000; color: #fff; margin: 15px 0; outline: none; font-size: 15px; user-select: text !important; }
+        .input-box { width: 100%; padding: 18px; border-radius: 14px; border: 1px solid #333; background: #000; color: #fff; margin: 15px 0; outline: none; user-select: text !important; }
         .play-btn { width: 100%; padding: 18px; border-radius: 14px; border: none; background: linear-gradient(90deg, #00e5ff, #00ff88); color: black; font-size: 16px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
 
-        /* --- 6-SEC OVERLAY --- */
-        #ad-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.98); z-index: 9999; display: none; flex-direction: column; justify-content: center; align-items: center; backdrop-filter: blur(12px); }
+        /* --- FAST OVERLAY --- */
+        #ad-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.98); z-index: 10000; display: none; flex-direction: column; justify-content: center; align-items: center; backdrop-filter: blur(12px); }
         .big-ad-box { width: 300px; height: 250px; background: #000; border: 1px solid #222; border-radius: 12px; margin: 10px 0; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-        .timer-wrap { padding: 10px; width: 60px; height: 60px; border: 3px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
-        #overlay-timer { font-size: 26px; font-weight: 800; color: var(--primary); }
+        .timer-wrap { width: 60px; height: 60px; border: 3px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; color: var(--primary); }
 
-        /* --- PLAYER & SETTINGS --- */
-        #cinema-wrapper { display: none; width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; background: #000; z-index: 10000; flex-direction: column; }
-        .top-bar { padding: 10px 20px; background: rgba(0,0,0,0.8); position: absolute; top: 0; width: 100%; z-index: 10001; display: flex; justify-content: space-between; align-items: center; }
-        .quality-btn { background: #111; color: var(--primary); border: 1px solid var(--primary); padding: 8px; border-radius: 8px; font-size: 12px; font-weight: bold; }
-        .dl-icon { background: var(--primary); color: #000; padding: 8px 15px; border-radius: 8px; text-decoration: none; font-weight: 800; font-size: 12px; cursor: pointer; }
+        /* --- PLAYER: COVERS EVERYTHING --- */
+        #cinema-wrapper { display: none; width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; background: #000; z-index: 200000; flex-direction: column; }
+        .top-bar { padding: 15px 20px; background: rgba(0,0,0,0.9); position: absolute; top: 0; width: 100%; z-index: 200001; display: flex; justify-content: space-between; align-items: center; }
+        .quality-btn { background: #111; color: var(--primary); border: 1px solid var(--primary); padding: 8px; border-radius: 8px; font-size: 12px; outline: none; }
+        .dl-icon { background: var(--primary); color: #000; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 800; cursor: pointer; font-size: 12px; }
         video { width: 100%; height: 100%; object-fit: contain; }
-
-        /* --- TOS --- */
-        #tos-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(5, 6, 8, 0.98); z-index: 20000; display: flex; justify-content: center; align-items: center; }
-        .tos-content { background: #0d0f14; border: 1px solid #1c1f26; width: 90%; max-width: 500px; padding: 25px; border-radius: 20px; text-align: center; }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
+    <!-- 1. TOS -->
     <div id="tos-overlay">
         <div class="tos-content">
-            <h2 style="color:var(--primary)">TeraStream Pro</h2>
-            <p style="font-size:12px; color:var(--text-dim)">Checking connection... Network Saver Active ⚡</p>
-            <button id="agreeBtn" style="width:100%; padding:15px; border-radius:10px; background:linear-gradient(90deg, #00e5ff, #00ff88); border:none; font-weight:800; cursor:pointer;" onclick="acceptTOS()">START STREAMING</button>
+            <div class="tos-header">✨ TeraStream Pro ✨</div>
+            <div class="tos-body">
+                Hey Bestie! 👋 To keep the stream fast, we auto-optimize quality based on your network. ⚡
+                <br><br>
+                After 10 videos, you'll be shifted to a mirror domain to ensure server stability. Support us by viewing our ads! 💖
+            </div>
+            <label style="display:flex; align-items:center; gap:10px; margin-bottom:15px; cursor:pointer;">
+                <input type="checkbox" id="tos-checkbox" onchange="toggleAgreeBtn()">
+                <span style="font-size:13px;">I agree to the Terms! 💖</span>
+            </label>
+            <button id="agreeBtn" class="agree-btn" onclick="acceptTOS()" disabled>START STREAMING</button>
         </div>
     </div>
 
-    <!-- USER 320x50 SCRIPT -->
+    <!-- 2. TOP AD (320x50 SCRIPT) -->
     <div class="ad-slot">
         <script src="https://pl29437763.profitablecpmratenetwork.com/1d/ca/73/1dca73f5c59fdf49cbfe128bbf80c21a.js"></script>
     </div>
@@ -60,10 +66,10 @@
     <div id="main-container">
         <div id="home-screen">
             <h1>TeraStream</h1>
-            <p id="net-status" style="color:var(--primary); font-size: 11px; margin-top:5px;">Network: Optimizing...</p>
+            <p id="net-label" style="color:var(--primary); font-size: 11px; margin-top:5px;">Optimizing Connection...</p>
 
-            <input type="text" id="linkBox" class="input-box" placeholder="Paste TeraBox Link here...">
-            <button class="play-btn" onclick="startAction('play')">Unlock & Play</button>
+            <input type="text" id="linkBox" class="input-box" placeholder="Paste TeraBox Link...">
+            <button class="play-btn" id="mainBtn" onclick="triggerAction('play')">Unlock & Play</button>
 
             <div id="native-ad-container" style="margin-top:20px;">
                 <script async="async" data-cfasync="false" src="https://pl29436277.profitablecpmratenetwork.com/f66769b56b44248314261841a0e4e0c9/invoke.js"></script>
@@ -72,65 +78,73 @@
         </div>
     </div>
 
-    <!-- USER 320x50 SCRIPT -->
-    <div class="ad-slot" style="border-top:1px solid #1a1a1a; border-bottom:none;">
+    <!-- 3. BOTTOM AD (320x50 SCRIPT) -->
+    <div class="ad-slot" style="border-top:1px solid #1a1a1a;">
         <script src="https://pl29437763.profitablecpmratenetwork.com/1d/ca/73/1dca73f5c59fdf49cbfe128bbf80c21a.js"></script>
     </div>
 
+    <!-- 4. TIMER OVERLAY -->
     <div id="ad-overlay">
-        <div class="overlay-content">
-            <div class="big-ad-box">
-                <script type="text/javascript">
-                    atOptions = { 'key' : '18ea0a28b5dca9cb89e786e8828bab39', 'format' : 'js', 'height' : 250, 'width' : 300, 'params' : {} };
-                </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/18ea0a28b5dca9cb89e786e8828bab39/invoke.js"></script>
-            </div>
-            <div class="timer-wrap"><div id="overlay-timer">6</div></div>
-            <p id="timer-text" style="color:#555; font-size:10px;">Buffering Video...</p>
-            <div class="big-ad-box">
-                <script type="text/javascript">
-                    atOptions = { 'key' : '18ea0a28b5dca9cb89e786e8828bab39', 'format' : 'js', 'height' : 250, 'width' : 300, 'params' : {} };
-                </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/18ea0a28b5dca9cb89e786e8828bab39/invoke.js"></script>
-            </div>
+        <div class="big-ad-box">
+            <script type="text/javascript">
+                atOptions = { 'key' : '18ea0a28b5dca9cb89e786e8828bab39', 'format' : 'js', 'height' : 250, 'width' : 300, 'params' : {} };
+            </script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/18ea0a28b5dca9cb89e786e8828bab39/invoke.js"></script>
+        </div>
+        <div class="timer-wrap" id="overlay-timer">4</div>
+        <p id="timer-msg" style="color:#555; font-size:10px; margin-top:10px;">Bypassing Limits...</p>
+        <div class="big-ad-box">
+            <script type="text/javascript">
+                atOptions = { 'key' : '18ea0a28b5dca9cb89e786e8828bab39', 'format' : 'js', 'height' : 250, 'width' : 300, 'params' : {} };
+            </script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/18ea0a28b5dca9cb89e786e8828bab39/invoke.js"></script>
         </div>
     </div>
 
+    <!-- 5. CINEMA PLAYER -->
     <div id="cinema-wrapper">
         <div class="top-bar">
-            <button class="close-player" onclick="location.reload()">⬅ BACK</button>
-            <div style="display:flex; gap:8px;">
-                <select id="qualitySelect" class="quality-btn" onchange="changeQuality()"></select>
-                <div class="dl-icon" onclick="startAction('download')">SAVE</div>
+            <button onclick="location.reload()" style="background:#222; color:white; border:none; padding:8px 15px; border-radius:8px; cursor:pointer;">⬅ BACK</button>
+            <div style="display:flex; gap:8px; align-items:center;">
+                <select id="qualitySelect" class="quality-btn" onchange="changeQual()"></select>
+                <div class="dl-icon" onclick="triggerAction('dl')">SAVE</div>
             </div>
         </div>
         <video id="mainPlayer" controls playsinline></video>
     </div>
 
 <script>
-    let fetchedStreams = {};
-    let directLink = "";
-    let apiReady = false;
-    let userNetwork = "fast"; 
+    // --- PHANTOM SHIFT CONFIG ---
+    const NEXT_DOMAIN = "https://freeteraboxtwo.netlify.app"; 
+    const VIDEO_LIMIT = 10;
 
-    /* --- NETWORK SAVER LOGIC --- */
-    function checkNetwork() {
+    let fetchedStreams = {}; let downloadUrl = ""; let apiReady = false; let netType = "fast";
+
+    // 1. NETWORK SPEED PROBE
+    function probeNet() {
         const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-        if (conn) {
-            const type = conn.effectiveType; // '4g', '3g', etc.
-            const statusEl = document.getElementById('net-status');
-            if (type.includes('2g') || type === '3g') {
-                userNetwork = "slow";
-                statusEl.innerText = "Network: Slow (Saver Active ⚡)";
-            } else {
-                userNetwork = "fast";
-                statusEl.innerText = "Network: High Speed (HD Ready)";
-            }
+        if(conn && (conn.effectiveType.includes('2g') || conn.effectiveType === '3g')) {
+            netType = "slow";
+            document.getElementById('net-label').innerText = "Network Saver: ON ⚡ (360p Default)";
         }
     }
-    checkNetwork();
+    probeNet();
 
-    async function preloadVideo(url) {
+    // 2. LOYALTY & SPEED LOGIC
+    function getLogic() {
+        let count = parseInt(sessionStorage.getItem('v_count') || "0");
+        
+        if (count >= VIDEO_LIMIT) { window.location.href = NEXT_DOMAIN; return 999; }
+        if (count > 5) { const sb = document.getElementById('social-bar-container'); if(sb) sb.style.display = 'none'; }
+        
+        // Every 4th video is INSTANT (0s)
+        if (count > 0 && count % 4 === 0) return 0;
+        
+        // Timer Reduction: Power users get 2s, New users get 4s
+        return (count > 6) ? 2 : 4; 
+    }
+
+    async function fetchVideo(url) {
         try {
             const res = await fetch('https://terabox-downloader-api2.p.rapidapi.com/v1', {
                 method: 'POST',
@@ -144,86 +158,93 @@
             const data = await res.json();
             if(data.result) {
                 fetchedStreams = data.result.fast_streams || {};
-                directLink = data.result.direct_link || "";
-                
-                const qSelect = document.getElementById('qualitySelect');
-                qSelect.innerHTML = '';
-                
-                // AUTO-SELECT BASED ON NETWORK
-                let targetQual = (userNetwork === "slow") ? "360p" : "720p";
-                let bestMatch = data.result.stream_url;
+                downloadUrl = data.result.direct_link || "";
+                const qSelect = document.getElementById('qualitySelect'); qSelect.innerHTML = '';
+                let targetQual = (netType === "slow") ? "360p" : "720p";
+                let bestUrl = data.result.stream_url;
 
-                for (let q in fetchedStreams) {
+                for(let q in fetchedStreams) {
                     let opt = document.createElement('option');
-                    opt.value = fetchedStreams[q];
-                    opt.innerText = q;
-                    if(q === targetQual || (!fetchedStreams[targetQual] && q === '480p')) {
-                        opt.selected = true;
-                        bestMatch = fetchedStreams[q];
-                    }
+                    opt.value = fetchedStreams[q]; opt.innerText = q;
+                    if(q === targetQual) { opt.selected = true; bestUrl = fetchedStreams[q]; }
                     qSelect.appendChild(opt);
                 }
-
                 const player = document.getElementById('mainPlayer');
-                player.src = bestMatch;
-                player.load(); // BUFFERING STARTS HERE (DURING TIMER)
+                player.src = bestUrl; player.load(); 
                 apiReady = true;
-            } else { apiReady = "error"; }
-        } catch (e) { apiReady = "error"; }
+            } else { apiReady = "err"; }
+        } catch(e) { apiReady = "err"; }
     }
 
-    function startAction(mode) {
-        const url = document.getElementById('linkBox').value;
-        if(!url.includes('tera')) return alert("Paste Link!");
+    function triggerAction(mode) {
+        const link = document.getElementById('linkBox').value;
+        if(!link.includes('tera')) return alert("Paste Link!");
+
+        let count = parseInt(sessionStorage.getItem('v_count') || "0");
+        sessionStorage.setItem('v_count', count + 1);
+        
+        let waitTime = getLogic();
+        if (waitTime === 999) return;
+
+        if (waitTime === 0) {
+            if(mode === 'play') {
+                fetchVideo(link);
+                document.getElementById('mainBtn').innerText = "BONUS: INSTANT PLAY...";
+                checkInstant();
+            } else { window.open(downloadUrl || fetchedStreams['720p'], '_blank'); }
+            return;
+        }
 
         document.getElementById('ad-overlay').style.display = 'flex';
-        if(mode === 'play') preloadVideo(url);
+        if(mode === 'play') fetchVideo(link);
 
-        let count = 6;
+        let t = waitTime;
         const timerEl = document.getElementById('overlay-timer');
-        const interval = setInterval(() => {
-            count--;
-            timerEl.innerText = count;
-            if(count <= 0) {
-                clearInterval(interval);
-                executeAction(mode);
-            }
+        timerEl.innerText = t;
+        const clock = setInterval(() => {
+            t--; timerEl.innerText = t;
+            if(t <= 0) { clearInterval(clock); finalPush(mode); }
         }, 1000);
     }
 
-    // FAST-CHECK CYCLE (100ms)
-    function executeAction(mode) {
-        if (mode === 'play') {
-            if (apiReady === true) {
+    // ULTRA-FAST 100ms CHECK
+    function finalPush(mode) {
+        if(mode === 'play') {
+            if(apiReady === true) {
                 document.getElementById('ad-overlay').style.display = 'none';
                 document.getElementById('main-container').style.display = 'none';
                 document.getElementById('cinema-wrapper').style.display = 'flex';
-                document.getElementById('mainPlayer').play(); 
-            } else if (apiReady === "error") {
-                alert("API Error"); location.reload();
-            } else {
-                setTimeout(() => executeAction('play'), 100); // Check again in 0.1s
-            }
+                document.getElementById('mainPlayer').play();
+            } else { setTimeout(() => finalPush('play'), 100); }
         } else {
             document.getElementById('ad-overlay').style.display = 'none';
-            window.open(directLink || fetchedStreams['720p'], '_blank');
+            window.open(downloadUrl || fetchedStreams['720p'], '_blank');
         }
     }
 
-    function changeQuality() {
-        const player = document.getElementById('mainPlayer');
-        const qSelect = document.getElementById('qualitySelect');
-        const currentTime = player.currentTime;
-        player.src = qSelect.value;
-        player.onloadedmetadata = () => { player.currentTime = currentTime; player.play(); };
+    function checkInstant() {
+        if(apiReady === true) {
+            document.getElementById('mainBtn').innerText = "Unlock & Play";
+            document.getElementById('main-container').style.display = 'none';
+            document.getElementById('cinema-wrapper').style.display = 'flex';
+            document.getElementById('mainPlayer').play();
+        } else { setTimeout(checkInstant, 100); }
     }
 
-    function acceptTOS() { localStorage.setItem('ts_ok', '1'); document.getElementById('tos-overlay').style.display = 'none'; }
-    window.onload = () => { if(localStorage.getItem('ts_ok')) document.getElementById('tos-overlay').style.display='none'; }
+    function changeQual() {
+        const p = document.getElementById('mainPlayer'); const t = p.currentTime;
+        p.src = document.getElementById('qualitySelect').value;
+        p.onloadedmetadata = () => { p.currentTime = t; p.play(); };
+    }
+
+    function toggleAgreeBtn() { document.getElementById('agreeBtn').disabled = !document.getElementById('tos-checkbox').checked; document.getElementById('agreeBtn').className = document.getElementById('tos-checkbox').checked ? 'agree-btn active' : 'agree-btn'; }
+    function acceptTOS() { localStorage.setItem('tos_v11', '1'); document.getElementById('tos-overlay').style.display = 'none'; }
+    window.onload = () => { if(localStorage.getItem('tos_v11')) document.getElementById('tos-overlay').style.display = 'none'; }
 </script>
 
-<!-- SOCIAL BAR SCRIPT HERE -->
+<div id="social-bar-container">
+    <!-- PASTE SOCIAL BAR SCRIPT HERE -->
+</div>
 
 </body>
 </html>
-
