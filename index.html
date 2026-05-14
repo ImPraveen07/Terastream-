@@ -3,210 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TeraStream Ultra - High Performance</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>TeraStream Pro - Ultimate</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #00e5ff; --bg: #050608; --card: #0d0f14; --accent: #00ff88; }
-        * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: var(--bg); color: white; margin: 0; overflow-x: hidden; }
+        :root { --primary: #00e5ff; --bg: #08090d; --text-dim: #8b92a5; }
+        * { box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); color: white; margin: 0; overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; user-select: none; }
 
-        /* --- AD LAYOUT OPTIMIZATION --- */
-        .ad-container { width: 100%; display: flex; justify-content: center; background: #000; padding: 10px 0; border-bottom: 1px solid #1a1e26; }
-        .side-ads { position: fixed; top: 50%; transform: translateY(-50%); width: 120px; height: 600px; background: #000; z-index: 5; display: none; }
-        .left-ad { left: 10px; } .right-ad { right: 10px; }
+        /* --- THE VAULT: FULL BESTIE TOS --- */
+        #tos-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(5, 6, 8, 0.98); z-index: 9999999; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(10px); }
+        .tos-content { background: #0d0f14; border: 1px solid #1c1f26; width: 95%; max-width: 580px; padding: 30px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0, 229, 255, 0.1); }
+        .tos-header { color: var(--primary); font-size: 22px; font-weight: 800; text-align: center; margin-bottom: 15px; }
+        .tos-body { height: 220px; overflow-y: auto; background: #000; padding: 20px; border-radius: 10px; font-size: 12px; color: var(--text-dim); line-height: 1.8; text-align: justify; margin-bottom: 15px; border: 1px solid #111; }
+        .agree-btn { width: 100%; padding: 16px; border-radius: 10px; border: none; background: #1a1e26; color: #555; font-weight: 800; cursor: not-allowed; transition: 0.3s; }
+        .agree-btn.active { background: linear-gradient(90deg, #00e5ff, #00ff88); color: #000; cursor: pointer; }
 
-        #main-container { max-width: 600px; margin: 40px auto; padding: 20px; text-align: center; }
-        .input-group { position: relative; margin: 25px 0; }
-        .link-input { width: 100%; padding: 18px; border-radius: 12px; border: 2px solid #1c1f26; background: #000; color: #fff; font-size: 16px; transition: 0.3s; }
-        .link-input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); }
+        /* --- MOBILE AD SLOTS (320x50) --- */
+        .ad-slot { width: 100%; min-height: 60px; background: #000; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid #1a1a1a; padding: 10px 0; }
         
-        .play-btn { width: 100%; padding: 20px; border-radius: 12px; border: none; background: linear-gradient(135deg, var(--primary), var(--accent)); color: #000; font-weight: 800; font-size: 18px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
+        #main-container { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center; }
+        #home-screen { width: 100%; max-width: 500px; padding: 30px; background: rgba(255,255,255,0.02); border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); }
+        h1 { font-weight: 800; font-size: 2.2rem; background: linear-gradient(90deg, #00e5ff, #00ff88); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
+        .input-box { width: 100%; padding: 18px; border-radius: 14px; border: 1px solid #333; background: #000; color: #fff; margin: 15px 0; outline: none; user-select: text !important; }
+        .play-btn { width: 100%; padding: 18px; border-radius: 14px; border: none; background: linear-gradient(90deg, #00e5ff, #00ff88); color: black; font-size: 16px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
 
-        /* --- MONEY OVERLAY (TIMERS) --- */
-        #ad-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; }
-        .overlay-ad-box { width: 300px; height: 250px; background: #111; border: 1px solid #333; margin: 15px; border-radius: 8px; overflow: hidden; }
-        .timer-circle { width: 80px; height: 80px; border: 4px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 800; color: var(--primary); margin: 10px; box-shadow: 0 0 20px rgba(0, 229, 255, 0.3); }
+        /* --- MONEY OVERLAY --- */
+        #ad-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.98); z-index: 10000; display: none; flex-direction: column; justify-content: center; align-items: center; }
+        .big-ad-box { width: 300px; height: 250px; background: #000; border: 1px solid #222; border-radius: 12px; margin: 10px 0; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .timer-wrap { width: 60px; height: 60px; border: 3px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; color: var(--primary); }
 
-        /* --- CINEMA MODE (MAX ADS) --- */
-        #cinema-wrapper { display: none; width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; background: #000; z-index: 99999; flex-direction: column; }
-        .player-header { padding: 10px; background: #0d0f14; display: flex; justify-content: space-between; align-items: center; }
-        .video-stage { flex-grow: 1; display: flex; flex-direction: column; position: relative; }
-        video { width: 100%; max-height: 60vh; background: #000; }
-        .under-player-ads { flex-grow: 1; overflow-y: auto; padding: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        /* --- PLAYER: THE FIX --- */
+        #cinema-wrapper { 
+            display: none; width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; 
+            background: #000; z-index: 20000000; flex-direction: column; 
+        }
+        .top-bar { padding: 15px 20px; background: rgba(0,0,0,0.9); position: absolute; top: 0; width: 100%; z-index: 20000001; display: flex; justify-content: space-between; align-items: center; }
+        .quality-btn { background: #111; color: var(--primary); border: 1px solid var(--primary); padding: 8px; border-radius: 8px; font-size: 12px; outline: none; }
+        .dl-icon { background: var(--primary); color: #000; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 800; cursor: pointer; font-size: 12px; }
+        video { width: 100%; height: 100%; object-fit: contain; background: #000; }
 
-        /* --- TOS OVERLAY --- */
-        #tos-overlay { position: fixed; inset: 0; background: rgba(5,6,8,0.98); z-index: 200000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
-        .tos-box { background: var(--card); border: 1px solid #1c1f26; width: 90%; max-width: 500px; padding: 25px; border-radius: 20px; text-align: center; }
-        
-        @media (min-width: 1200px) { .side-ads { display: block; } }
+        .hide-ads { display: none !important; }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
-    <!-- TOS SECTION -->
+    <!-- 1. FULL BESTIE TOS -->
     <div id="tos-overlay">
-        <div class="tos-box">
-            <h2 style="color:var(--primary)">TERASTREAM PRO</h2>
-            <p style="color:#8b92a5; font-size: 14px;">High-speed cloud streaming. We use data-saving protocols for your network.</p>
-            <button class="play-btn" onclick="closeTOS()" style="padding: 12px;">I AGREE & CONTINUE</button>
+        <div class="tos-content">
+            <div class="tos-header">✨ Welcome to TeraStream ✨</div>
+            <div class="tos-body">
+                Hey there, bestie! 👋 We are so incredibly happy that you decided to use our little app today. We built this tool just for you so you can bypass those annoying limits and watch your favorite videos with zero stress. Grab some popcorn, get comfy, and let us do all the heavy lifting!
+                <br><br>
+                First things first: <b>We use Firebase!</b> 🔥 That means we store a tiny bit of anonymous data just to make sure your app runs super smoothly.
+                <br><br>
+                <b>Responsibility:</b> We are just the magical messenger owl! 🦉 We don't host, store, or even know what is inside the links you bring us. Because of that, <b>you are 100% responsible for the videos you watch.</b> 
+                <br><br>
+                We love keeping our community a safe, happy place. So please, pretty please, do not use our player for any naughty or restricted stuff. If you do, you're breaking our pinky promise! 🛑
+                <br><br>
+                By checking the box above, you're giving us a virtual high-five and agreeing that you won't hold us responsible for broken links. You are officially the best! 🎉
+            </div>
+            <label style="display:flex; align-items:center; gap:10px; margin-bottom:15px; cursor:pointer;">
+                <input type="checkbox" id="tos-checkbox" onchange="toggleAgreeBtn()">
+                <span style="font-size:13px;">I promise to be good! 💖</span>
+            </label>
+            <button id="agreeBtn" class="agree-btn" onclick="acceptTOS()" disabled>START STREAMING 🍿</button>
         </div>
     </div>
 
-    <!-- STICKY SIDE ADS (PC ONLY) -->
-    <div class="side-ads left-ad">
-        <script type="text/javascript">atOptions={'key':'18ea0a28b5dca9cb89e786e8828bab39','format':'js','height':600,'width':120,'params':{}};</script>
-        <script type="text/javascript" src="//www.highperformanceformat.com/18ea0a28b5dca9cb89e786e8828bab39/invoke.js"></script>
-    </div>
-
-    <div id="top-banner" class="ad-container">
-        <!-- REPLACE WITH YOUR BANNER ID -->
-        <script type="text/javascript">atOptions={'key':'1dca73f5c59fdf49cbfe128bbf80c21a','format':'js','height':50,'width':320,'params':{}};</script>
+    <!-- 2. TOP BANNER (320x50) -->
+    <div id="top-banner" class="ad-slot">
+        <script type="text/javascript">
+            atOptions = { 'key' : '1dca73f5c59fdf49cbfe128bbf80c21a', 'format' : 'js', 'height' : 50, 'width' : 320, 'params' : {} };
+        </script>
         <script type="text/javascript" src="//www.highperformanceformat.com/1dca73f5c59fdf49cbfe128bbf80c21a/invoke.js"></script>
     </div>
 
     <div id="main-container">
-        <h1 style="font-weight: 800; font-size: 36px; margin-bottom: 5px;">TERA<span style="color:var(--primary)">STREAM</span></h1>
-        <p style="color: var(--accent); font-size: 12px; margin-top: 0;">PREMIUM CLOUD DECODING ACTIVE</p>
-        
-        <div class="input-group">
-            <input type="text" id="linkBox" class="link-input" placeholder="Paste Terabox Link Here...">
-        </div>
-        
-        <button class="play-btn" onclick="startLoading()">UNLOCK VIDEO</button>
-
-        <div style="margin-top: 30px;">
-            <!-- NATIVE AD FOR EARNINGS -->
-            <script async="async" data-cfasync="false" src="https://pl29436277.profitablecpmratenetwork.com/f66769b56b44248314261841a0e4e0c9/invoke.js"></script>
-            <div id="container-f66769b56b44248314261841a0e4e0c9"></div>
+        <div id="home-screen">
+            <h1>TeraStream</h1>
+            <p id="net-label" style="color:var(--text-dim); font-size: 11px; margin-top:5px;">Network Saver Active ⚡</p>
+            <input type="text" id="linkBox" class="input-box" placeholder="Paste TeraBox Link...">
+            <button class="play-btn" id="playBtnMain" onclick="triggerAction('play')">Unlock & Play</button>
+            
+            <div id="native-ad-container" style="margin-top:20px;">
+                <script async="async" data-cfasync="false" src="https://pl29436277.profitablecpmratenetwork.com/f66769b56b44248314261841a0e4e0c9/invoke.js"></script>
+                <div id="container-f66769b56b44248314261841a0e4e0c9"></div>
+            </div>
         </div>
     </div>
 
-    <!-- REVENUE OVERLAY -->
+    <!-- 3. BOTTOM BANNER (320x50) -->
+    <div id="bottom-banner" class="ad-slot" style="border-top:1px solid #1a1a1a;">
+        <script type="text/javascript">
+            atOptions = { 'key' : '1dca73f5c59fdf49cbfe128bbf80c21a', 'format' : 'js', 'height' : 50, 'width' : 320, 'params' : {} };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/1dca73f5c59fdf49cbfe128bbf80c21a/invoke.js"></script>
+    </div>
+
+    <!-- 4. AD OVERLAY (TIMER) -->
     <div id="ad-overlay">
-        <div class="overlay-ad-box">
-             <script type="text/javascript">atOptions={'key':'18ea0a28b5dca9cb89e786e8828bab39','format':'js','height':250,'width':300,'params':{}};</script>
-             <script type="text/javascript" src="//www.highperformanceformat.com/18ea0a28b5dca9cb89e786e8828bab39/invoke.js"></script>
+        <div class="big-ad-box">
+            <script type="text/javascript">
+                atOptions = { 'key' : '18ea0a28b5dca9cb89e786e8828bab39', 'format' : 'js', 'height' : 250, 'width' : 300, 'params' : {} };
+            </script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/18ea0a28b5dca9cb89e786e8828bab39/invoke.js"></script>
         </div>
-        <div class="timer-circle" id="countDown">6</div>
-        <p id="status-text">Bypassing Restrictions...</p>
-        <div class="overlay-ad-box">
-             <script type="text/javascript">atOptions={'key':'18ea0a28b5dca9cb89e786e8828bab39','format':'js','height':250,'width':300,'params':{}};</script>
-             <script type="text/javascript" src="//www.highperformanceformat.com/18ea0a28b5dca9cb89e786e8828bab39/invoke.js"></script>
+        <div class="timer-wrap" id="overlay-timer">4</div>
+        <p id="timer-msg" style="color:#555; font-size:10px; margin-top:10px;">Pre-fetching High Speed Stream...</p>
+        <div class="big-ad-box">
+            <script type="text/javascript">
+                atOptions = { 'key' : '18ea0a28b5dca9cb89e786e8828bab39', 'format' : 'js', 'height' : 250, 'width' : 300, 'params' : {} };
+            </script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/18ea0a28b5dca9cb89e786e8828bab39/invoke.js"></script>
         </div>
     </div>
 
-    <!-- FINAL VIDEO INTERFACE -->
+    <!-- 5. PLAYER -->
     <div id="cinema-wrapper">
-        <div class="player-header">
-            <button onclick="location.reload()" style="background:transparent; color:white; border:1px solid #333; padding:8px 15px; border-radius:5px;">CLOSE</button>
-            <span id="quality-badge" style="background:var(--accent); color:#000; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:800;">AUTO</span>
-        </div>
-        <div class="video-stage">
-            <video id="player" controls playsinline poster="https://img.freepik.com/free-vector/abstract-dark-particles-background_23-2148424314.jpg"></video>
-        </div>
-        <!-- HIGH EARNING GRID -->
-        <div class="under-player-ads">
-            <div class="overlay-ad-box" style="width:100%; margin:0;">
-                <script type="text/javascript">atOptions={'key':'1dca73f5c59fdf49cbfe128bbf80c21a','format':'js','height':250,'width':300,'params':{}};</script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/1dca73f5c59fdf49cbfe128bbf80c21a/invoke.js"></script>
-            </div>
-            <div class="overlay-ad-box" style="width:100%; margin:0;">
-                <script type="text/javascript">atOptions={'key':'1dca73f5c59fdf49cbfe128bbf80c21a','format':'js','height':250,'width':300,'params':{}};</script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/1dca73f5c59fdf49cbfe128bbf80c21a/invoke.js"></script>
+        <div class="top-bar">
+            <button onclick="location.reload()" style="background:#222; color:white; border:none; padding:8px 15px; border-radius:8px;">⬅ BACK</button>
+            <div style="display:flex; gap:8px;">
+                <select id="qualitySelect" class="quality-btn" onchange="changeQual()"></select>
+                <div class="dl-icon" onclick="triggerAction('dl')">SAVE</div>
             </div>
         </div>
+        <video id="mainPlayer" controls playsinline preload="auto"></video>
     </div>
 
-    <script>
-        let apiResolved = false;
-        let streamURL = "";
+<script>
+    const NEXT_DOMAIN = "https://freeteraboxtwo.netlify.app"; 
+    const VIDEO_LIMIT = 10;
+    let fetchedStreams = {}; let downloadUrl = ""; let apiReady = false; let netType = "fast";
 
-        function closeTOS() {
-            document.getElementById('tos-overlay').style.display = 'none';
-        }
+    // --- NETWORK PROBE ---
+    const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    if(conn && (conn.effectiveType.includes('2g') || conn.effectiveType === '3g')) {
+        netType = "slow";
+        document.getElementById('net-label').innerText = "Network Saver: ON ⚡";
+    }
 
-        // Detect user data/network speed
-        function getNetworkQuality() {
-            const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-            if (conn) {
-                if (conn.saveData) return "LOW (Data Saver)";
-                if (['slow-2g', '2g', '3g'].includes(conn.effectiveType)) return "360p";
-                return "720p/HD";
-            }
-            return "AUTO";
-        }
-
-        async function fetchStream(link) {
-            try {
-                // Adjust this URL to your specific backend endpoint
-                const response = await fetch('/.netlify/functions/getStream', {
-                    method: 'POST',
-                    body: JSON.stringify({ link: link })
-                });
-                const data = await response.json();
-                if(data.result) {
-                    streamURL = data.result.stream_url;
-                    apiResolved = true;
-                }
-            } catch (e) {
-                console.error("Fetch failed");
-                apiResolved = "error";
-            }
-        }
-
-        function startLoading() {
-            const link = document.getElementById('linkBox').value;
-            if (!link.includes('tera')) return alert("Please enter a valid link!");
-
-            document.getElementById('ad-overlay').style.display = 'flex';
-            document.getElementById('quality-badge').innerText = getNetworkQuality();
-            
-            fetchStream(link); // Start fetching in background
-
-            let timeLeft = 6;
-            const timer = setInterval(() => {
-                timeLeft--;
-                document.getElementById('countDown').innerText = timeLeft;
-
-                // --- THE CRITICAL FIX: TRIGGER 2 SECONDS EARLY ---
-                if (timeLeft === 2) {
-                    document.getElementById('status-text').innerText = "Ready! Buffering...";
-                    if (apiResolved === true) {
-                        launchPlayer();
-                    }
-                }
-
-                if (timeLeft <= 0) {
-                    clearInterval(timer);
-                    if (!apiResolved) {
-                        document.getElementById('status-text').innerText = "Still decoding... Please wait.";
-                        waitForAPI();
-                    }
-                }
-            }, 1000);
-        }
-
-        function waitForAPI() {
-            if (apiResolved === true) {
-                launchPlayer();
-            } else {
-                setTimeout(waitForAPI, 500);
-            }
-        }
-
-        function launchPlayer() {
-            const player = document.getElementById('player');
-            player.src = streamURL;
-            
-            document.getElementById('ad-overlay').style.display = 'none';
-            document.getElementById('main-container').style.display = 'none';
-            document.getElementById('top-banner').style.display = 'none';
-            document.getElementById('cinema-wrapper').style.display = 'flex';
-            
-            player.play().catch(() => {
-                console.log("Autoplay blocked, user must click play");
+    // --- FETCH ENGINE (CORE FIX) ---
+    async function fetchVideo(url) {
+        apiReady = false;
+        try {
+            const res = await fetch('https://terabox-downloader-api2.p.rapidapi.com/v1', {
+                method: 'POST',
+                headers: {
+                    'x-rapidapi-key': 'f26f059259msh01744200cf35cdap1a2e94jsn87882966dadc',
+                    'x-rapidapi-host': 'terabox-downloader-api2.p.rapidapi.com',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ platform: "terabox", media_type: "video", quality: "auto", link: url })
             });
+            const data = await res.json();
+            if(data.result) {
+                fetchedStreams = data.result.fast_streams || {};
+                downloadUrl = data.result.direct_link || "";
+                const qSelect = document.getElementById('qualitySelect'); qSelect.innerHTML = '';
+                let targetQual = (netType === "slow") ? "360p" : "720p";
+                let bestUrl = data.result.stream_url;
+                
+                for(let q in fetchedStreams) {
+                    let opt = document.createElement('option'); opt.value = fetchedStreams[q]; opt.innerText = q;
+                    if(q === targetQual) { opt.selected = true; bestUrl = fetchedStreams[q]; }
+                    qSelect.appendChild(opt);
+                }
+
+                const player = document.getElementById('mainPlayer');
+                player.src = bestUrl;
+                player.load(); // Browser pre-warms the file
+                apiReady = true;
+            } else { apiReady = "err"; }
+        } catch(e) { apiReady = "err"; }
+    }
+
+    function triggerAction(mode) {
+        const link = document.getElementById('linkBox').value;
+        if(!link.includes('tera')) return alert("Paste Link!");
+
+        let count = parseInt(sessionStorage.getItem('v_count') || "0");
+        if (count >= VIDEO_LIMIT) { window.location.href = NEXT_DOMAIN; return; }
+        sessionStorage.setItem('v_count', count + 1);
+
+        // Start fetching IMMEDIATELY on click to win time
+        if(mode === 'play') fetchVideo(link);
+
+        let wait = (count > 0 && count % 4 === 0) ? 0 : (count > 6 ? 2 : 4);
+
+        if(wait === 0) {
+            checkAndLaunch(mode);
+            return;
         }
-    </script>
+
+        document.getElementById('ad-overlay').style.display = 'flex';
+        let t = wait;
+        const tEl = document.getElementById('overlay-timer');
+        tEl.innerText = t;
+        
+        const clock = setInterval(() => {
+            t--; tEl.innerText = t;
+            if(t <= 0) { 
+                clearInterval(clock); 
+                checkAndLaunch(mode); 
+            }
+        }, 1000);
+    }
+
+    // --- ZERO LAG EXECUTION (30ms POLLING) ---
+    function checkAndLaunch(mode) {
+        if(mode === 'play') {
+            if(apiReady === true) {
+                // Kill ads immediately
+                document.getElementById('ad-overlay').style.display = 'none';
+                document.getElementById('main-container').style.display = 'none';
+                document.getElementById('top-banner').classList.add('hide-ads');
+                document.getElementById('bottom-banner').classList.add('hide-ads');
+                document.getElementById('social-bar-container').classList.add('hide-ads');
+                
+                // Show player and FORCE PLAY
+                document.getElementById('cinema-wrapper').style.display = 'flex';
+                
+                // Final fix: play with unmuted promise
+                const player = document.getElementById('mainPlayer');
+                player.play().catch(() => {
+                    // If browser blocks, try again muted
+                    player.muted = true;
+                    player.play();
+                });
+            } else if(apiReady === "err") { alert("API Busy"); location.reload(); }
+            else { 
+                // Rapid polling ensures 0ms delay once data is ready
+                setTimeout(() => checkAndLaunch('play'), 30); 
+            }
+        } else {
+            // DOWNLOAD TRAP
+            document.getElementById('ad-overlay').style.display = 'none';
+            window.open(downloadUrl || fetchedStreams['720p'] || fetchedStreams['360p'], '_blank');
+        }
+    }
+
+    function changeQual() {
+        const p = document.getElementById('mainPlayer'); const t = p.currentTime;
+        p.src = document.getElementById('qualitySelect').value;
+        p.onloadedmetadata = () => { p.currentTime = t; p.play(); };
+    }
+
+    function toggleAgreeBtn() { document.getElementById('agreeBtn').disabled = !document.getElementById('tos-checkbox').checked; document.getElementById('agreeBtn').className = document.getElementById('tos-checkbox').checked ? 'agree-btn active' : 'agree-btn'; }
+    function acceptTOS() { localStorage.setItem('tos_final_v17', '1'); document.getElementById('tos-overlay').style.display = 'none'; }
+    window.onload = () => { if(localStorage.getItem('tos_final_v17')) document.getElementById('tos-overlay').style.display = 'none'; }
+    document.addEventListener('keydown', e => { if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I")) e.preventDefault(); });
+</script>
+
+<div id="social-bar-container">
+    <script src="https://pl29437763.profitablecpmratenetwork.com/1d/ca/73/1dca73f5c59fdf49cbfe128bbf80c21a.js"></script>
+</div>
+
 </body>
 </html>
