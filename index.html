@@ -3,201 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TeraStream Ultra - Max Revenue</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>TeraStream Ultra - High Performance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #00e5ff; --bg: #030405; --accent: #00ff88; }
+        :root { --primary: #00e5ff; --bg: #050608; --card: #0d0f14; --accent: #00ff88; }
         * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background: var(--bg); color: white; margin: 0; overflow-x: hidden; }
 
-        /* --- THE AD ARCHITECTURE (MAX DENSITY) --- */
-        .ad-row { width: 100%; display: flex; justify-content: center; background: #000; padding: 5px 0; border-bottom: 1px solid #111; }
-        .sticky-side { position: fixed; top: 80px; width: 160px; height: 600px; background: #000; z-index: 5; border: 1px solid #222; display: none; }
-        .left-side { left: 5px; } .right-side { right: 5px; }
+        /* --- AD LAYOUT OPTIMIZATION --- */
+        .ad-container { width: 100%; display: flex; justify-content: center; background: #000; padding: 10px 0; border-bottom: 1px solid #1a1e26; }
+        .side-ads { position: fixed; top: 50%; transform: translateY(-50%); width: 120px; height: 600px; background: #000; z-index: 5; display: none; }
+        .left-ad { left: 10px; } .right-ad { right: 10px; }
 
-        #main-ui { max-width: 480px; margin: 15px auto; padding: 15px; text-align: center; position: relative; z-index: 10; }
-        .input-box { width: 100%; padding: 20px; border-radius: 15px; border: 2px solid #1c202a; background: #000; color: #fff; font-size: 16px; margin-bottom: 10px; }
-        .btn-unlock { width: 100%; padding: 22px; border-radius: 15px; border: none; background: linear-gradient(90deg, var(--primary), var(--accent)); color: #000; font-weight: 900; font-size: 20px; cursor: pointer; box-shadow: 0 0 30px rgba(0, 229, 255, 0.5); }
-
-        /* --- THE MONEY OVERLAY (TIMER + PRE-LOAD) --- */
-        #ad-overlay { 
-            position: fixed; inset: 0; background: #000; z-index: 10000; 
-            display: none; flex-direction: column; align-items: center; overflow-y: auto; padding: 10px;
-        }
-        .timer-unit { width: 80px; height: 80px; border: 5px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 35px; font-weight: 900; color: var(--primary); margin: 10px; }
+        #main-container { max-width: 600px; margin: 40px auto; padding: 20px; text-align: center; }
+        .input-group { position: relative; margin: 25px 0; }
+        .link-input { width: 100%; padding: 18px; border-radius: 12px; border: 2px solid #1c1f26; background: #000; color: #fff; font-size: 16px; transition: 0.3s; }
+        .link-input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); }
         
-        /* Ghost Player: Buffers in background */
-        #ghost-container { 
-            width: 100%; max-width: 400px; height: 220px; background: #050505; border-radius: 15px; 
-            margin: 10px 0; border: 2px solid #111; overflow: hidden; position: relative;
-        }
-        #ghost-container.buffering { border-color: var(--accent); box-shadow: 0 0 15px var(--accent); }
+        .play-btn { width: 100%; padding: 20px; border-radius: 12px; border: none; background: linear-gradient(135deg, var(--primary), var(--accent)); color: #000; font-weight: 800; font-size: 18px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* --- CINEMA MODE (THE FINAL STAGE) --- */
-        #cinema-wrapper { display: none; position: fixed; inset: 0; background: #000; z-index: 20000; flex-direction: column; }
-        .top-bar { padding: 10px; display: flex; justify-content: space-between; align-items: center; background: #090a0c; border-bottom: 1px solid #1a1a1a; }
-        #video-stage { flex-shrink: 0; width: 100%; background: #000; display: flex; align-items: center; justify-content: center; }
-        video { width: 100%; max-height: 50vh; }
+        /* --- MONEY OVERLAY (TIMERS) --- */
+        #ad-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; }
+        .overlay-ad-box { width: 300px; height: 250px; background: #111; border: 1px solid #333; margin: 15px; border-radius: 8px; overflow: hidden; }
+        .timer-circle { width: 80px; height: 80px; border: 4px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 800; color: var(--primary); margin: 10px; box-shadow: 0 0 20px rgba(0, 229, 255, 0.3); }
+
+        /* --- CINEMA MODE (MAX ADS) --- */
+        #cinema-wrapper { display: none; width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; background: #000; z-index: 99999; flex-direction: column; }
+        .player-header { padding: 10px; background: #0d0f14; display: flex; justify-content: space-between; align-items: center; }
+        .video-stage { flex-grow: 1; display: flex; flex-direction: column; position: relative; }
+        video { width: 100%; max-height: 60vh; background: #000; }
+        .under-player-ads { flex-grow: 1; overflow-y: auto; padding: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+        /* --- TOS OVERLAY --- */
+        #tos-overlay { position: fixed; inset: 0; background: rgba(5,6,8,0.98); z-index: 200000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+        .tos-box { background: var(--card); border: 1px solid #1c1f26; width: 90%; max-width: 500px; padding: 25px; border-radius: 20px; text-align: center; }
         
-        .q-badge { background: #333; color: var(--primary); padding: 4px 10px; border-radius: 5px; font-size: 11px; font-weight: 700; }
-        .ad-grid-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; flex-grow: 1; overflow-y: auto; }
-        .grid-box { background: #0a0a0a; border: 1px solid #111; border-radius: 10px; display: flex; align-items: center; justify-content: center; min-height: 200px; }
-
-        @media (min-width: 1200px) { .sticky-side { display: block; } }
+        @media (min-width: 1200px) { .side-ads { display: block; } }
     </style>
 </head>
 <body>
 
-    <!-- TOP AD SPACE -->
-    <div class="ad-row">
+    <!-- TOS SECTION -->
+    <div id="tos-overlay">
+        <div class="tos-box">
+            <h2 style="color:var(--primary)">TERASTREAM PRO</h2>
+            <p style="color:#8b92a5; font-size: 14px;">High-speed cloud streaming. We use data-saving protocols for your network.</p>
+            <button class="play-btn" onclick="closeTOS()" style="padding: 12px;">I AGREE & CONTINUE</button>
+        </div>
+    </div>
+
+    <!-- STICKY SIDE ADS (PC ONLY) -->
+    <div class="side-ads left-ad">
+        <script type="text/javascript">atOptions={'key':'18ea0a28b5dca9cb89e786e8828bab39','format':'js','height':600,'width':120,'params':{}};</script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/18ea0a28b5dca9cb89e786e8828bab39/invoke.js"></script>
+    </div>
+
+    <div id="top-banner" class="ad-container">
+        <!-- REPLACE WITH YOUR BANNER ID -->
         <script type="text/javascript">atOptions={'key':'1dca73f5c59fdf49cbfe128bbf80c21a','format':'js','height':50,'width':320,'params':{}};</script>
-        <script src="//www.highperformanceformat.com/1dca73f5c59fdf49cbfe128bbf80c21a/invoke.js"></script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/1dca73f5c59fdf49cbfe128bbf80c21a/invoke.js"></script>
     </div>
 
-    <!-- PC SIDEBAR ADS -->
-    <div class="sticky-side left-side">
-        <!-- Ad tag here -->
-    </div>
-    <div class="sticky-side right-side">
-        <!-- Ad tag here -->
-    </div>
-
-    <div id="main-ui">
-        <h1 style="font-size: 45px; font-weight: 900; margin: 0;">TERA<span style="color:var(--primary)">STREAM</span></h1>
-        <p style="color:var(--accent); font-weight: 700; letter-spacing: 3px; font-size: 11px; margin-top: -5px;">PREMIUM CLOUD BYPASS</p>
+    <div id="main-container">
+        <h1 style="font-weight: 800; font-size: 36px; margin-bottom: 5px;">TERA<span style="color:var(--primary)">STREAM</span></h1>
+        <p style="color: var(--accent); font-size: 12px; margin-top: 0;">PREMIUM CLOUD DECODING ACTIVE</p>
         
-        <input type="text" id="userInput" class="input-box" placeholder="Paste Terabox Link...">
-        <button class="btn-unlock" onclick="initFlow()">UNLOCK VIDEO</button>
+        <div class="input-group">
+            <input type="text" id="linkBox" class="link-input" placeholder="Paste Terabox Link Here...">
+        </div>
+        
+        <button class="play-btn" onclick="startLoading()">UNLOCK VIDEO</button>
 
-        <!-- NATIVE NATIVE AD -->
-        <div style="margin-top: 20px; border: 1px solid #111; border-radius: 10px; padding: 10px;">
+        <div style="margin-top: 30px;">
+            <!-- NATIVE AD FOR EARNINGS -->
             <script async="async" data-cfasync="false" src="https://pl29436277.profitablecpmratenetwork.com/f66769b56b44248314261841a0e4e0c9/invoke.js"></script>
             <div id="container-f66769b56b44248314261841a0e4e0c9"></div>
         </div>
     </div>
 
-    <!-- REVENUE LOADING OVERLAY -->
+    <!-- REVENUE OVERLAY -->
     <div id="ad-overlay">
-        <div class="timer-unit" id="timer">7</div>
-        <p id="status" style="font-weight: 700; color: #444;">Optimizing for your connection...</p>
-
-        <!-- OVERLAY ADS (TWO BIG BLOCKS) -->
-        <div class="grid-box" style="width: 300px; height: 250px; margin-bottom: 15px;">
-            <script type="text/javascript">atOptions={'key':'18ea0a28b5dca9cb89e786e8828bab39','format':'js','height':250,'width':300,'params':{}};</script>
-            <script src="//www.highperformanceformat.com/18ea0a28b5dca9cb89e786e8828bab39/invoke.js"></script>
+        <div class="overlay-ad-box">
+             <script type="text/javascript">atOptions={'key':'18ea0a28b5dca9cb89e786e8828bab39','format':'js','height':250,'width':300,'params':{}};</script>
+             <script type="text/javascript" src="//www.highperformanceformat.com/18ea0a28b5dca9cb89e786e8828bab39/invoke.js"></script>
         </div>
-
-        <!-- THE GHOST PLAYER (Hidden loading zone) -->
-        <div id="ghost-container">
-            <video id="corePlayer" controls playsinline muted poster="https://i.imgur.com/8FpY4H9.png"></video>
-        </div>
-
-        <div class="grid-box" style="width: 300px; height: 250px; margin-top: 15px;">
-            <!-- Another Big Ad -->
+        <div class="timer-circle" id="countDown">6</div>
+        <p id="status-text">Bypassing Restrictions...</p>
+        <div class="overlay-ad-box">
+             <script type="text/javascript">atOptions={'key':'18ea0a28b5dca9cb89e786e8828bab39','format':'js','height':250,'width':300,'params':{}};</script>
+             <script type="text/javascript" src="//www.highperformanceformat.com/18ea0a28b5dca9cb89e786e8828bab39/invoke.js"></script>
         </div>
     </div>
 
-    <!-- THE CINEMA (VIDEO PLAYER PAGE) -->
+    <!-- FINAL VIDEO INTERFACE -->
     <div id="cinema-wrapper">
-        <div class="top-bar">
-            <button onclick="location.reload()" style="background:#111; color:#fff; border:1px solid #222; padding:8px 15px; border-radius:8px;">← BACK</button>
-            <span id="net-quality" class="q-badge">DETECTING...</span>
+        <div class="player-header">
+            <button onclick="location.reload()" style="background:transparent; color:white; border:1px solid #333; padding:8px 15px; border-radius:5px;">CLOSE</button>
+            <span id="quality-badge" style="background:var(--accent); color:#000; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:800;">AUTO</span>
         </div>
-        
-        <div id="video-stage">
-            <!-- Video hops here at T-0 -->
+        <div class="video-stage">
+            <video id="player" controls playsinline poster="https://img.freepik.com/free-vector/abstract-dark-particles-background_23-2148424314.jpg"></video>
         </div>
-
-        <!-- ADS UNDER PLAYER (GRID) -->
-        <div class="ad-grid-bottom">
-            <div class="grid-box">AD SLOT 1</div>
-            <div class="grid-box">AD SLOT 2</div>
-            <div class="grid-box">AD SLOT 3</div>
-            <div class="grid-box">AD SLOT 4</div>
+        <!-- HIGH EARNING GRID -->
+        <div class="under-player-ads">
+            <div class="overlay-ad-box" style="width:100%; margin:0;">
+                <script type="text/javascript">atOptions={'key':'1dca73f5c59fdf49cbfe128bbf80c21a','format':'js','height':250,'width':300,'params':{}};</script>
+                <script type="text/javascript" src="//www.highperformanceformat.com/1dca73f5c59fdf49cbfe128bbf80c21a/invoke.js"></script>
+            </div>
+            <div class="overlay-ad-box" style="width:100%; margin:0;">
+                <script type="text/javascript">atOptions={'key':'1dca73f5c59fdf49cbfe128bbf80c21a','format':'js','height':250,'width':300,'params':{}};</script>
+                <script type="text/javascript" src="//www.highperformanceformat.com/1dca73f5c59fdf49cbfe128bbf80c21a/invoke.js"></script>
+            </div>
         </div>
     </div>
 
     <script>
         let apiResolved = false;
-        let finalStream = "";
-        let timeRemaining = 7;
+        let streamURL = "";
 
-        // 1. SMART NETWORK CHECK
-        function checkNetwork() {
-            const n = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-            if (n) {
-                if (n.saveData) return "360p (DATA SAVER)";
-                if (n.downlink < 2) return "480p (STABLE)";
-                return "1080p (ULTRA)";
-            }
-            return "720p (SMART)";
+        function closeTOS() {
+            document.getElementById('tos-overlay').style.display = 'none';
         }
 
-        // 2. BACK BUTTON RESET
-        window.onpopstate = () => location.reload();
+        // Detect user data/network speed
+        function getNetworkQuality() {
+            const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            if (conn) {
+                if (conn.saveData) return "LOW (Data Saver)";
+                if (['slow-2g', '2g', '3g'].includes(conn.effectiveType)) return "360p";
+                return "720p/HD";
+            }
+            return "AUTO";
+        }
 
-        // 3. THE TRIGGER
-        function initFlow() {
-            const url = document.getElementById('userInput').value;
-            if (!url.includes('tera')) return alert("Enter Terabox Link!");
+        async function fetchStream(link) {
+            try {
+                // Adjust this URL to your specific backend endpoint
+                const response = await fetch('/.netlify/functions/getStream', {
+                    method: 'POST',
+                    body: JSON.stringify({ link: link })
+                });
+                const data = await response.json();
+                if(data.result) {
+                    streamURL = data.result.stream_url;
+                    apiResolved = true;
+                }
+            } catch (e) {
+                console.error("Fetch failed");
+                apiResolved = "error";
+            }
+        }
+
+        function startLoading() {
+            const link = document.getElementById('linkBox').value;
+            if (!link.includes('tera')) return alert("Please enter a valid link!");
 
             document.getElementById('ad-overlay').style.display = 'flex';
-            document.getElementById('net-quality').innerText = checkNetwork();
-            window.history.pushState({view: 'ads'}, '');
+            document.getElementById('quality-badge').innerText = getNetworkQuality();
+            
+            fetchStream(link); // Start fetching in background
 
-            // Start Fetching immediately in background
-            startBackgroundFetch(url);
+            let timeLeft = 6;
+            const timer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('countDown').innerText = timeLeft;
 
-            const counter = setInterval(() => {
-                timeRemaining--;
-                document.getElementById('timer').innerText = timeRemaining;
-
-                // --- THE 2-SECOND TRIGGER ---
-                // We start moving/preparing the player 2 seconds before the timer ends
-                if (timeRemaining === 2) {
-                    if (apiResolved) {
-                        document.getElementById('ghost-container').classList.add('buffering');
-                        document.getElementById('status').innerText = "Ready! Finalizing stream...";
-                        document.getElementById('status').style.color = "var(--accent)";
-                    } else {
-                        timeRemaining++; // Pause timer if API hasn't replied yet
-                        document.getElementById('status').innerText = "Server busy, retrying...";
+                // --- THE CRITICAL FIX: TRIGGER 2 SECONDS EARLY ---
+                if (timeLeft === 2) {
+                    document.getElementById('status-text').innerText = "Ready! Buffering...";
+                    if (apiResolved === true) {
+                        launchPlayer();
                     }
                 }
 
-                if (timeRemaining <= 0) {
-                    clearInterval(counter);
-                    switchToCinema();
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    if (!apiResolved) {
+                        document.getElementById('status-text').innerText = "Still decoding... Please wait.";
+                        waitForAPI();
+                    }
                 }
             }, 1000);
         }
 
-        // 4. BACKGROUND FETCH (API)
-        function startBackgroundFetch(link) {
-            // Simulated Fetch - Replace with your actual Netlify function call
-            setTimeout(() => {
-                finalStream = "https://www.w3schools.com/html/mov_bbb.mp4"; // API RESULT
-                const p = document.getElementById('corePlayer');
-                p.src = finalStream;
-                p.load(); // Start buffering
-                apiResolved = true;
-            }, 2000);
+        function waitForAPI() {
+            if (apiResolved === true) {
+                launchPlayer();
+            } else {
+                setTimeout(waitForAPI, 500);
+            }
         }
 
-        // 5. SWITCH TO FULL VIEW
-        function switchToCinema() {
-            const p = document.getElementById('corePlayer');
-            const stage = document.getElementById('video-stage');
-            
-            // Move player to cinema stage
-            stage.appendChild(p);
-            p.muted = false; 
+        function launchPlayer() {
+            const player = document.getElementById('player');
+            player.src = streamURL;
             
             document.getElementById('ad-overlay').style.display = 'none';
-            document.getElementById('main-ui').style.display = 'none';
+            document.getElementById('main-container').style.display = 'none';
+            document.getElementById('top-banner').style.display = 'none';
             document.getElementById('cinema-wrapper').style.display = 'flex';
             
-            p.play().catch(e => console.log("User must click play manually"));
+            player.play().catch(() => {
+                console.log("Autoplay blocked, user must click play");
+            });
         }
     </script>
 </body>
