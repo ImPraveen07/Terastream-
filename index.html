@@ -3,95 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TeraStream Pro - Ultimate</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <title>TeraStream Ultra - High Performance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #00e5ff; --bg: #08090d; --text-dim: #8b92a5; }
-        * { box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--bg); color: white; margin: 0; overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; user-select: none; }
+        :root { --primary: #00e5ff; --bg: #050608; --card: #0d0f14; --accent: #00ff88; }
+        * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: var(--bg); color: white; margin: 0; overflow-x: hidden; }
 
-        /* --- STOP THE FLICKER --- */
-        #tos-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(5, 6, 8, 0.98); z-index: 9999999; display: none; justify-content: center; align-items: center; backdrop-filter: blur(10px); }
-        .tos-content { background: #0d0f14; border: 1px solid #1c1f26; width: 95%; max-width: 580px; padding: 30px; border-radius: 20px; }
-        .tos-header { color: var(--primary); font-size: 22px; font-weight: 800; text-align: center; margin-bottom: 15px; }
-        .tos-body { height: 220px; overflow-y: auto; background: #000; padding: 20px; border-radius: 10px; font-size: 12px; color: var(--text-dim); line-height: 1.8; margin-bottom: 15px; }
-        .agree-btn { width: 100%; padding: 16px; border-radius: 10px; border: none; background: #1a1e26; color: #555; font-weight: 800; cursor: not-allowed; }
-        .agree-btn.active { background: linear-gradient(90deg, #00e5ff, #00ff88); color: #000; cursor: pointer; }
+        /* --- AD LAYOUT OPTIMIZATION --- */
+        .ad-container { width: 100%; display: flex; justify-content: center; background: #000; padding: 10px 0; border-bottom: 1px solid #1a1e26; }
+        .side-ads { position: fixed; top: 50%; transform: translateY(-50%); width: 120px; height: 600px; background: #000; z-index: 5; display: none; }
+        .left-ad { left: 10px; } .right-ad { right: 10px; }
 
-        .ad-slot { width: 100%; min-height: 60px; background: #000; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid #1a1a1a; padding: 10px 0; }
-        #main-container { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center; }
-        .input-box { width: 100%; padding: 18px; border-radius: 14px; border: 1px solid #333; background: #000; color: #fff; margin: 15px 0; outline: none; }
-        .play-btn { width: 100%; padding: 18px; border-radius: 14px; border: none; background: linear-gradient(90deg, #00e5ff, #00ff88); color: black; font-weight: 800; cursor: pointer; }
+        #main-container { max-width: 600px; margin: 40px auto; padding: 20px; text-align: center; }
+        .input-group { position: relative; margin: 25px 0; }
+        .link-input { width: 100%; padding: 18px; border-radius: 12px; border: 2px solid #1c1f26; background: #000; color: #fff; font-size: 16px; transition: 0.3s; }
+        .link-input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); }
+        
+        .play-btn { width: 100%; padding: 20px; border-radius: 12px; border: none; background: linear-gradient(135deg, var(--primary), var(--accent)); color: #000; font-weight: 800; font-size: 18px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
 
-        #ad-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.98); z-index: 10000; display: none; flex-direction: column; justify-content: center; align-items: center; }
-        .big-ad-box { width: 300px; height: 250px; background: #000; border: 1px solid #222; border-radius: 12px; margin: 10px 0; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-        .timer-wrap { width: 60px; height: 60px; border: 3px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--primary); }
-        #cinema-wrapper { display: none; width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; background: #000; z-index: 20000000; flex-direction: column; }
-        video { width: 100%; height: 100%; object-fit: contain; }
-        .hide-ads { display: none !important; }
+        /* --- MONEY OVERLAY (TIMERS) --- */
+        #ad-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; }
+        .overlay-ad-box { width: 300px; height: 250px; background: #111; border: 1px solid #333; margin: 15px; border-radius: 8px; overflow: hidden; }
+        .timer-circle { width: 80px; height: 80px; border: 4px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 800; color: var(--primary); margin: 10px; box-shadow: 0 0 20px rgba(0, 229, 255, 0.3); }
+
+        /* --- CINEMA MODE (MAX ADS) --- */
+        #cinema-wrapper { display: none; width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; background: #000; z-index: 99999; flex-direction: column; }
+        .player-header { padding: 10px; background: #0d0f14; display: flex; justify-content: space-between; align-items: center; }
+        .video-stage { flex-grow: 1; display: flex; flex-direction: column; position: relative; }
+        video { width: 100%; max-height: 60vh; background: #000; }
+        .under-player-ads { flex-grow: 1; overflow-y: auto; padding: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+        /* --- TOS OVERLAY --- */
+        #tos-overlay { position: fixed; inset: 0; background: rgba(5,6,8,0.98); z-index: 200000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+        .tos-box { background: var(--card); border: 1px solid #1c1f26; width: 90%; max-width: 500px; padding: 25px; border-radius: 20px; text-align: center; }
+        
+        @media (min-width: 1200px) { .side-ads { display: block; } }
     </style>
 </head>
-<body oncontextmenu="return false;">
+<body>
 
+    <!-- TOS SECTION -->
     <div id="tos-overlay">
-        <div class="tos-content">
-            <div class="tos-header">✨ TeraStream ✨</div>
-            <div class="tos-body">Welcome! Agree to start streaming. We use Firebase to keep things fast! 🚀</div>
-            <label style="display:flex; align-items:center; gap:10px; margin-bottom:15px; cursor:pointer;"><input type="checkbox" id="tos-checkbox" onchange="toggleAgreeBtn()"><span style="font-size:13px;">I promise to be good! 💖</span></label>
-            <button id="agreeBtn" class="agree-btn" onclick="acceptTOS()" disabled>START STREAMING 🍿</button>
+        <div class="tos-box">
+            <h2 style="color:var(--primary)">TERASTREAM PRO</h2>
+            <p style="color:#8b92a5; font-size: 14px;">High-speed cloud streaming. We use data-saving protocols for your network.</p>
+            <button class="play-btn" onclick="closeTOS()" style="padding: 12px;">I AGREE & CONTINUE</button>
         </div>
     </div>
 
-    <!-- AD 1: TOP BANNER -->
-    <div id="top-banner" class="ad-slot">
+    <!-- STICKY SIDE ADS (PC ONLY) -->
+    <div class="side-ads left-ad">
+        <script type="text/javascript">atOptions={'key':'18ea0a28b5dca9cb89e786e8828bab39','format':'js','height':600,'width':120,'params':{}};</script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/18ea0a28b5dca9cb89e786e8828bab39/invoke.js"></script>
+    </div>
+
+    <div id="top-banner" class="ad-container">
+        <!-- REPLACE WITH YOUR BANNER ID -->
         <script type="text/javascript">atOptions={'key':'1dca73f5c59fdf49cbfe128bbf80c21a','format':'js','height':50,'width':320,'params':{}};</script>
         <script type="text/javascript" src="//www.highperformanceformat.com/1dca73f5c59fdf49cbfe128bbf80c21a/invoke.js"></script>
     </div>
 
     <div id="main-container">
-        <h1>TeraStream</h1>
-        <input type="text" id="linkBox" class="input-box" placeholder="Paste Link...">
-        <button class="play-btn" onclick="triggerAction('play')">Unlock & Play</button>
+        <h1 style="font-weight: 800; font-size: 36px; margin-bottom: 5px;">TERA<span style="color:var(--primary)">STREAM</span></h1>
+        <p style="color: var(--accent); font-size: 12px; margin-top: 0;">PREMIUM CLOUD DECODING ACTIVE</p>
         
-        <!-- NATIVE AD -->
-        <div id="native-ad" style="margin-top:20px;">
+        <div class="input-group">
+            <input type="text" id="linkBox" class="link-input" placeholder="Paste Terabox Link Here...">
+        </div>
+        
+        <button class="play-btn" onclick="startLoading()">UNLOCK VIDEO</button>
+
+        <div style="margin-top: 30px;">
+            <!-- NATIVE AD FOR EARNINGS -->
             <script async="async" data-cfasync="false" src="https://pl29436277.profitablecpmratenetwork.com/f66769b56b44248314261841a0e4e0c9/invoke.js"></script>
             <div id="container-f66769b56b44248314261841a0e4e0c9"></div>
         </div>
     </div>
 
-    <!-- AD 2: BOTTOM BANNER -->
-    <div id="bottom-banner" class="ad-slot">
-        <script type="text/javascript">atOptions={'key':'1dca73f5c59fdf49cbfe128bbf80c21a','format':'js','height':50,'width':320,'params':{}};</script>
-        <script type="text/javascript" src="//www.highperformanceformat.com/1dca73f5c59fdf49cbfe128bbf80c21a/invoke.js"></script>
-    </div>
-
-    <!-- MONEY OVERLAY (Timers & Big Ads) -->
+    <!-- REVENUE OVERLAY -->
     <div id="ad-overlay">
-        <div class="big-ad-box">
-            <script type="text/javascript">atOptions={'key':'18ea0a28b5dca9cb89e786e8828bab39','format':'js','height':250,'width':300,'params':{}};</script>
-            <script type="text/javascript" src="//www.highperformanceformat.com/18ea0a28b5dca9cb89e786e8828bab39/invoke.js"></script>
+        <div class="overlay-ad-box">
+             <script type="text/javascript">atOptions={'key':'18ea0a28b5dca9cb89e786e8828bab39','format':'js','height':250,'width':300,'params':{}};</script>
+             <script type="text/javascript" src="//www.highperformanceformat.com/18ea0a28b5dca9cb89e786e8828bab39/invoke.js"></script>
         </div>
-        <div class="timer-wrap" id="overlay-timer">4</div>
-        <div class="big-ad-box">
-            <script type="text/javascript">atOptions={'key':'18ea0a28b5dca9cb89e786e8828bab39','format':'js','height':250,'width':300,'params':{}};</script>
-            <script type="text/javascript" src="//www.highperformanceformat.com/18ea0a28b5dca9cb89e786e8828bab39/invoke.js"></script>
+        <div class="timer-circle" id="countDown">6</div>
+        <p id="status-text">Bypassing Restrictions...</p>
+        <div class="overlay-ad-box">
+             <script type="text/javascript">atOptions={'key':'18ea0a28b5dca9cb89e786e8828bab39','format':'js','height':250,'width':300,'params':{}};</script>
+             <script type="text/javascript" src="//www.highperformanceformat.com/18ea0a28b5dca9cb89e786e8828bab39/invoke.js"></script>
         </div>
     </div>
 
+    <!-- FINAL VIDEO INTERFACE -->
     <div id="cinema-wrapper">
-        <div style="padding:15px; background:#000;"><button onclick="location.reload()" style="background:#222; color:white; border:none; padding:10px; border-radius:8px; cursor:pointer;">⬅ BACK</button></div>
-        <video id="mainPlayer" controls playsinline></video>
+        <div class="player-header">
+            <button onclick="location.reload()" style="background:transparent; color:white; border:1px solid #333; padding:8px 15px; border-radius:5px;">CLOSE</button>
+            <span id="quality-badge" style="background:var(--accent); color:#000; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:800;">AUTO</span>
+        </div>
+        <div class="video-stage">
+            <video id="player" controls playsinline poster="https://img.freepik.com/free-vector/abstract-dark-particles-background_23-2148424314.jpg"></video>
+        </div>
+        <!-- HIGH EARNING GRID -->
+        <div class="under-player-ads">
+            <div class="overlay-ad-box" style="width:100%; margin:0;">
+                <script type="text/javascript">atOptions={'key':'1dca73f5c59fdf49cbfe128bbf80c21a','format':'js','height':250,'width':300,'params':{}};</script>
+                <script type="text/javascript" src="//www.highperformanceformat.com/1dca73f5c59fdf49cbfe128bbf80c21a/invoke.js"></script>
+            </div>
+            <div class="overlay-ad-box" style="width:100%; margin:0;">
+                <script type="text/javascript">atOptions={'key':'1dca73f5c59fdf49cbfe128bbf80c21a','format':'js','height':250,'width':300,'params':{}};</script>
+                <script type="text/javascript" src="//www.highperformanceformat.com/1dca73f5c59fdf49cbfe128bbf80c21a/invoke.js"></script>
+            </div>
+        </div>
     </div>
 
-<script>
-/* SCRAMBLED LOGIC START */
-var _0x5a12=["\x74\x6F\x73\x5F\x66\x69\x6E\x61\x6C\x5F\x76\x31\x36","\x67\x65\x74\x49\x74\x65\x6D","\x74\x6F\x73\x2D\x6F\x76\x65\x72\x6C\x61\x79","\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64","\x73\x74\x79\x6C\x65","\x64\x69\x73\x70\x6C\x61\x79","\x66\x6C\x65\x78"];(function(){if(!localStorage[_0x5a12[1]](_0x5a12[0])){document[_0x5a12[3]](_0x5a12[2])[_0x5a12[4]][_0x5a12[5]]=_0x5a12[6]}})();let apiReady=false;async function fetchVideo(_0x2b2x1){apiReady=false;try{const _0x2b2x2=await fetch("\x2F\x2E\x6E\x65\x74\x6C\x69\x66\x79\x2F\x66\x75\x6E\x63\x74\x69\x6F\x6E\x73\x2F\x67\x65\x74\x53\x74\x72\x65\x61\x6D",{method:"\x50\x4F\x53\x54",body:JSON.stringify({link:_0x2b2x1})});const _0x2b2x3=await _0x2b2x2.json();if(_0x2b2x3.result){document.getElementById("\x6D\x61\x69\x6E\x50\x6C\x61\x79\x65\x72").src=_0x2b2x3.result.stream_url;apiReady=true}}catch(_0x2b2x4){apiReady="\x65\x72\x72"}}function triggerAction(){const _0x2b2x5=document.getElementById("\x6C\x69\x6E\x6B\x42\x6F\x78").value;if(!_0x2b2x5.includes("\x74\x65\x72\x61"))return alert("\x49\x6E\x76\x61\x6C\x69\x64");let _0x2b2x6=parseInt(sessionStorage.getItem("\x76\x5F\x63\x6F\x75\x6E\x74")||"\x30");if(_0x2b2x6>=10){window.location.href="\x68\x74\x74\x70\x73\x3A\x2F\x2F\x66\x72\x65\x65\x74\x65\x72\x61\x62\x6F\x78\x74\x77\x6F\x2E\x6E\x65\x74\x6C\x69\x66\x79\x2E\x61\x70\x70";return}sessionStorage.setItem("\x76\x5F\x63\x6F\x75\x6E\x74",_0x2b2x6+1);fetchVideo(_0x2b2x5);document.getElementById("\x61\x64\x2D\x6F\x76\x65\x72\x6C\x61\x79").style.display="\x66\x6C\x65\x78";let _0x2b2x7=4;const _0x2b2x8=setInterval(()=>{_0x2b2x7--;document.getElementById("\x6F\x76\x65\x72\x6C\x61\x79\x2D\x74\x69\x6D\x65\x72").innerText=_0x2b2x7;if(_0x2b2x7<=0){clearInterval(_0x2b2x8);checkAndLaunch()}},1000)}function checkAndLaunch(){if(apiReady===true){document.getElementById("\x61\x64\x2D\x6F\x76\x65\x72\x6C\x61\x79").style.display="\x6E\x6F\x6E\x65";document.getElementById("\x6D\x61\x69\x6E\x2D\x63\x6F\x6E\x74\x61\x69\x6E\x65\x72").style.display="\x6E\x6F\x6E\x65";document.getElementById("\x74\x6F\x70\x2D\x62\x61\x6E\x6E\x65\x72").classList.add("\x68\x69\x64\x65\x2D\x61\x64\x73");document.getElementById("\x63\x69\x6E\x65\x6D\x61\x2D\x77\x72\x61\x70\x70\x65\x72").style.display="\x66\x6C\x65\x78";document.getElementById("\x6D\x61\x69\x6E\x50\x6C\x61\x79\x65\x72").play()}else{setTimeout(checkAndLaunch,30)}}function acceptTOS(){localStorage.setItem("\x74\x6F\x73\x5F\x66\x69\x6E\x61\x6C\x5F\x76\x31\x36","\x31");document.getElementById("\x74\x6F\x73\x2D\x6F\x76\x65\x72\x6C\x61\x79").style.display="\x6E\x6F\x6E\x65"}function toggleAgreeBtn(){document.getElementById("\x61\x67\x72\x65\x65\x42\x74\x6E").disabled=!document.getElementById("\x74\x6F\x73\x2D\x63\x68\x65\x63\x6B\x62\x6F\x78").checked}
-/* SCRAMBLED LOGIC END */
-</script>
+    <script>
+        let apiResolved = false;
+        let streamURL = "";
 
-<div id="social-bar-container">
-    <script src="https://pl29437763.profitablecpmratenetwork.com/1d/ca/73/1dca73f5c59fdf49cbfe128bbf80c21a.js"></script>
-</div>
+        function closeTOS() {
+            document.getElementById('tos-overlay').style.display = 'none';
+        }
+
+        // Detect user data/network speed
+        function getNetworkQuality() {
+            const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            if (conn) {
+                if (conn.saveData) return "LOW (Data Saver)";
+                if (['slow-2g', '2g', '3g'].includes(conn.effectiveType)) return "360p";
+                return "720p/HD";
+            }
+            return "AUTO";
+        }
+
+        async function fetchStream(link) {
+            try {
+                // Adjust this URL to your specific backend endpoint
+                const response = await fetch('/.netlify/functions/getStream', {
+                    method: 'POST',
+                    body: JSON.stringify({ link: link })
+                });
+                const data = await response.json();
+                if(data.result) {
+                    streamURL = data.result.stream_url;
+                    apiResolved = true;
+                }
+            } catch (e) {
+                console.error("Fetch failed");
+                apiResolved = "error";
+            }
+        }
+
+        function startLoading() {
+            const link = document.getElementById('linkBox').value;
+            if (!link.includes('tera')) return alert("Please enter a valid link!");
+
+            document.getElementById('ad-overlay').style.display = 'flex';
+            document.getElementById('quality-badge').innerText = getNetworkQuality();
+            
+            fetchStream(link); // Start fetching in background
+
+            let timeLeft = 6;
+            const timer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('countDown').innerText = timeLeft;
+
+                // --- THE CRITICAL FIX: TRIGGER 2 SECONDS EARLY ---
+                if (timeLeft === 2) {
+                    document.getElementById('status-text').innerText = "Ready! Buffering...";
+                    if (apiResolved === true) {
+                        launchPlayer();
+                    }
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    if (!apiResolved) {
+                        document.getElementById('status-text').innerText = "Still decoding... Please wait.";
+                        waitForAPI();
+                    }
+                }
+            }, 1000);
+        }
+
+        function waitForAPI() {
+            if (apiResolved === true) {
+                launchPlayer();
+            } else {
+                setTimeout(waitForAPI, 500);
+            }
+        }
+
+        function launchPlayer() {
+            const player = document.getElementById('player');
+            player.src = streamURL;
+            
+            document.getElementById('ad-overlay').style.display = 'none';
+            document.getElementById('main-container').style.display = 'none';
+            document.getElementById('top-banner').style.display = 'none';
+            document.getElementById('cinema-wrapper').style.display = 'flex';
+            
+            player.play().catch(() => {
+                console.log("Autoplay blocked, user must click play");
+            });
+        }
+    </script>
 </body>
 </html>
