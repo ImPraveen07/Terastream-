@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TeraStream Pro - Ultimate</title>
+    <title>TeraStream-Free terabox viewer</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #00e5ff; --bg: #08090d; --text-dim: #8b92a5; }
@@ -32,7 +32,7 @@
         .big-ad-box { width: 300px; height: 250px; background: #000; border: 1px solid #222; border-radius: 12px; margin: 10px 0; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .timer-wrap { width: 60px; height: 60px; border: 3px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; color: var(--primary); }
 
-        /* --- PLAYER: THE FIX --- */
+        /* --- PLAYER --- */
         #cinema-wrapper { 
             display: none; width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; 
             background: #000; z-index: 20000000; flex-direction: column; 
@@ -83,7 +83,7 @@
             <h1>TeraStream</h1>
             <p id="net-label" style="color:var(--text-dim); font-size: 11px; margin-top:5px;">Network Saver Active ⚡</p>
             <input type="text" id="linkBox" class="input-box" placeholder="Paste TeraBox Link...">
-            <button class="play-btn" id="playBtnMain" onclick="triggerAction('play')">Unlock & Play</button>
+            <button class="play-btn" onclick="triggerAction('play')">Unlock & Play</button>
             
             <div id="native-ad-container" style="margin-top:20px;">
                 <script async="async" data-cfasync="false" src="https://pl29436277.profitablecpmratenetwork.com/f66769b56b44248314261841a0e4e0c9/invoke.js"></script>
@@ -131,18 +131,16 @@
     </div>
 
 <script>
-    const NEXT_DOMAIN = "https://freeteraboxtwo.netlify.app"; 
-    const VIDEO_LIMIT = 10;
     let fetchedStreams = {}; let downloadUrl = ""; let apiReady = false; let netType = "fast";
 
-    // --- NETWORK PROBE ---
+    // 1. NETWORK PROBE
     const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
     if(conn && (conn.effectiveType.includes('2g') || conn.effectiveType === '3g')) {
         netType = "slow";
         document.getElementById('net-label').innerText = "Network Saver: ON ⚡";
     }
 
-    // --- FETCH ENGINE (CORE FIX) ---
+    // 2. FETCH ENGINE
     async function fetchVideo(url) {
         apiReady = false;
         try {
@@ -171,7 +169,7 @@
 
                 const player = document.getElementById('mainPlayer');
                 player.src = bestUrl;
-                player.load(); // Browser pre-warms the file
+                player.load();
                 apiReady = true;
             } else { apiReady = "err"; }
         } catch(e) { apiReady = "err"; }
@@ -182,12 +180,14 @@
         if(!link.includes('tera')) return alert("Paste Link!");
 
         let count = parseInt(sessionStorage.getItem('v_count') || "0");
-        if (count >= VIDEO_LIMIT) { window.location.href = NEXT_DOMAIN; return; }
         sessionStorage.setItem('v_count', count + 1);
 
-        // Start fetching IMMEDIATELY on click to win time
+        // CPM Guard: Hide Social Bar after 5 videos to protect IP quality
+        if (count > 5) document.getElementById('social-bar-container').classList.add('hide-ads');
+
         if(mode === 'play') fetchVideo(link);
 
+        // REWARD LOGIC: Every 4th video is instant, otherwise 2s or 4s
         let wait = (count > 0 && count % 4 === 0) ? 0 : (count > 6 ? 2 : 4);
 
         if(wait === 0) {
@@ -209,34 +209,25 @@
         }, 1000);
     }
 
-    // --- ZERO LAG EXECUTION (30ms POLLING) ---
     function checkAndLaunch(mode) {
         if(mode === 'play') {
             if(apiReady === true) {
-                // Kill ads immediately
                 document.getElementById('ad-overlay').style.display = 'none';
                 document.getElementById('main-container').style.display = 'none';
                 document.getElementById('top-banner').classList.add('hide-ads');
                 document.getElementById('bottom-banner').classList.add('hide-ads');
                 document.getElementById('social-bar-container').classList.add('hide-ads');
                 
-                // Show player and FORCE PLAY
                 document.getElementById('cinema-wrapper').style.display = 'flex';
                 
-                // Final fix: play with unmuted promise
                 const player = document.getElementById('mainPlayer');
                 player.play().catch(() => {
-                    // If browser blocks, try again muted
                     player.muted = true;
                     player.play();
                 });
             } else if(apiReady === "err") { alert("API Busy"); location.reload(); }
-            else { 
-                // Rapid polling ensures 0ms delay once data is ready
-                setTimeout(() => checkAndLaunch('play'), 30); 
-            }
+            else { setTimeout(() => checkAndLaunch('play'), 30); }
         } else {
-            // DOWNLOAD TRAP
             document.getElementById('ad-overlay').style.display = 'none';
             window.open(downloadUrl || fetchedStreams['720p'] || fetchedStreams['360p'], '_blank');
         }
@@ -249,9 +240,8 @@
     }
 
     function toggleAgreeBtn() { document.getElementById('agreeBtn').disabled = !document.getElementById('tos-checkbox').checked; document.getElementById('agreeBtn').className = document.getElementById('tos-checkbox').checked ? 'agree-btn active' : 'agree-btn'; }
-    function acceptTOS() { localStorage.setItem('tos_final_v17', '1'); document.getElementById('tos-overlay').style.display = 'none'; }
-    window.onload = () => { if(localStorage.getItem('tos_final_v17')) document.getElementById('tos-overlay').style.display = 'none'; }
-    document.addEventListener('keydown', e => { if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I")) e.preventDefault(); });
+    function acceptTOS() { localStorage.setItem('tos_inf', '1'); document.getElementById('tos-overlay').style.display = 'none'; }
+    window.onload = () => { if(localStorage.getItem('tos_inf')) document.getElementById('tos-overlay').style.display = 'none'; }
 </script>
 
 <div id="social-bar-container">
